@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: rating-service
+  cloud:
+    consul:
+      host: localhost
+      discovery:
+        hostname: localhost
+        register-health-check: false
+server:
+  port: 8082
