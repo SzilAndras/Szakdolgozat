@@ -12,6 +12,7 @@
     <modules>
         <module>gateway-service</module>
         <module>rating-service</module>
+        <module>info-service</module>
 
     <!--    <module>caller-service</module>
         <module>callme-service</module>-->
