@@ -4,8 +4,13 @@ spring:
   cloud:
     consul:
       host: localhost
+      config:
+        format: YAML
       discovery:
-        hostname: localhost
         register-health-check: false
-server:
-  port: 8082
+
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server.port: 8082
