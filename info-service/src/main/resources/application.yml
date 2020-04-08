@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: info-service
+  cloud:
+    consul:
+      host: localhost
+      config:
+        format: YAML
+      discovery:
+        register-health-check: false
+
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server.port: 8083
