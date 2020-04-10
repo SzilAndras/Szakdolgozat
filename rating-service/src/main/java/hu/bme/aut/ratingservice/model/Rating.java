@@ -1,16 +1,18 @@
 package hu.bme.aut.ratingservice.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="ratings")
-@Builder
+@Builder(toBuilder = true)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter(value = AccessLevel.PACKAGE)
 @Getter
-@Setter
 public class Rating {
 
     @Id
@@ -28,4 +30,7 @@ public class Rating {
 
     @Column
     private String comment;
+
+    @CreatedDate
+    private Date createdDate;
 }

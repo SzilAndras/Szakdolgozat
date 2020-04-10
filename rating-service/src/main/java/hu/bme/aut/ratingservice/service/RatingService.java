@@ -22,12 +22,12 @@ public class RatingService {
                 .authorName(rating.getAuthorName())
                 .score(rating.getScore())
                 .comment(rating.getComment())
+                .createdDate(rating.getCreatedDate())
                 .build()).collect(Collectors.toList());
     }
 
     public void createRating(RatingDto rating) {
         ratingRepository.save(Rating.builder()
-                .id(rating.getId())
                 .authorId(rating.getAuthorId())
                 .authorName(rating.getAuthorName())
                 .score(rating.getScore())

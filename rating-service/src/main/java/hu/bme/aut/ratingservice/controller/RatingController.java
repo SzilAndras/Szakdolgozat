@@ -18,12 +18,12 @@ public class RatingController {
     RatingService ratingService;
 
     @GetMapping
-    List<RatingDto> getAll() {
+    public List<RatingDto> getAll() {
         return ratingService.getAllRating();
     }
 
     @PutMapping
-    void sava(RatingDto rating) {
+    public void save(RatingDto rating) {
         ratingService.createRating(rating);
     }
 
