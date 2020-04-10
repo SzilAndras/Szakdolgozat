@@ -1,7 +1,8 @@
 package hu.bme.aut.ratingservice.model;
 
 import lombok.Builder;
-import lombok.Data;;
+import lombok.Data;
+import java.util.Date;
 
 @Data
 @Builder
@@ -11,4 +12,6 @@ public class RatingDto {
     private String authorName;
     private int score;
     private String comment;
+    private Date createdDate;
+
 }
