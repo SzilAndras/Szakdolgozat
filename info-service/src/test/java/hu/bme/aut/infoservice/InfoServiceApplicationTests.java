@@ -1,4 +1,4 @@
-package hu.bme.aut.infoervice;
+package hu.bme.aut.infoservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

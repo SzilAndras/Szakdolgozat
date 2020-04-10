@@ -1,4 +1,4 @@
-package hu.bme.aut.infoervice;
+package hu.bme.aut.infoservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
