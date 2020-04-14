@@ -1,11 +1,11 @@
 spring:
   application:
-    name: rating-service
+    name: gateway-service
   cloud:
     consul:
       host: localhost
       port: 8500
-  output.ansi.enabled: ALWAYS
+
 
 ---
 spring:
@@ -14,3 +14,8 @@ spring:
     consul:
       discovery:
         instanceZone: zone1
+        register: false
+        registerHealthCheck: false
+        tags: zone=zone1
+server:
+  port: ${PORT:8080}

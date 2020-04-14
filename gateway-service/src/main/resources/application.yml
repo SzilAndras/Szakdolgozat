@@ -1,16 +1,25 @@
 spring:
-  application:
-    name: gateway-service
   cloud:
-    consul:
-      host: localhost
-      config:
-        format: YAML
+    gateway:
       discovery:
-        register-health-check: false
-
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-server.port: 8080
+        locator:
+          enabled: true
+      routes:
+        - id: rating-service
+          uri: lb://rating-service
+          predicates:
+            - Path=/rating/**
+          filters:
+            - RewritePath=/rating/(?<path>.*), /$\{path}
+        - id: info-service
+          uri: lb://info-service
+          predicates:
+            - Path=/info/**
+          filters:
+            - RewritePath=/info/(?<path>.*), /$\{path}
+        - id: reservation-service
+          uri: lb://reservation-service
+          predicates:
+            - Path=/reservation/**
+          filters:
+            - RewritePath=/reservation/(?<path>.*), /$\{path}

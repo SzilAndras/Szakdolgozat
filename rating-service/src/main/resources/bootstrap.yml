@@ -5,7 +5,10 @@ spring:
     consul:
       host: localhost
       port: 8500
-  output.ansi.enabled: ALWAYS
+      discovery:
+        instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,999999]}"
+
+server.port: 0
 
 ---
 spring:
@@ -14,3 +17,5 @@ spring:
     consul:
       discovery:
         instanceZone: zone1
+
+

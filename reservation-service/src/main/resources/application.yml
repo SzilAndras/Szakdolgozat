@@ -4,13 +4,14 @@ spring:
   cloud:
     consul:
       host: localhost
-      config:
-        format: YAML
+      port: 8500
+  output.ansi.enabled: ALWAYS
+
+
+---
+spring:
+  profiles: zone1
+  cloud:
+    consul:
       discovery:
-        register-health-check: false
-
-    loadbalancer:
-      ribbon:
-        enabled: false
-
-server.port: 8084
+        instanceZone: zone1
