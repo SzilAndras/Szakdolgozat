@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="gateway-service" />
+        <module name="reservation-service" />
+        <module name="info-service" />
+        <module name="rating-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="12">
+      <module name="gateway-service" target="12" />
+      <module name="info-service" target="12" />
+      <module name="rating-service" target="12" />
+      <module name="reservation-service" target="12" />
+      <module name="Szakdolgozat" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="gateway-service" options="-parameters" />
+      <module name="info-service" options="-parameters" />
+      <module name="rating-service" options="-parameters" />
+      <module name="reservation-service" options="-parameters" />
+    </option>
+  </component>
+</project>
