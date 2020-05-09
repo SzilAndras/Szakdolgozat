@@ -1,0 +1,88 @@
+<form [formGroup]="reservationForm" (ngSubmit)="onSubmit(reservationForm.value)">
+  <div class="row">
+    <div class="col-md-5">
+      <h4>Jármű adatai</h4>
+      <div class="form-group">
+        <label for="type">Típus(gyártmány, modell)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="type"
+          formControlName="type"
+          required
+          minlength="6"
+          name="type">
+      </div>
+
+      <div class="form-group">
+        <label for="pN">Rendszám</label>
+        <input
+          type="text"
+          class="form-control"
+          id="pN"
+          formControlName="plateNumber"
+          required
+          minlength="6"
+          name="pN">
+      </div>
+
+
+      <div class="form-group">
+        <label for="vin">Alvázszám</label>
+        <input
+          type="text"
+          class="form-control"
+          id="vin"
+          formControlName="vin"
+          required
+          minlength="17"
+          maxlength="17"
+          name="vin">
+      </div>
+
+    </div>
+    <div class="col-md-7">
+      <h4>Feladatok</h4>
+
+      <div class="form-group">
+        <div [formGroup]="newWork" class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Új feladat..."
+            formControlName="work">
+          <span class="input-group-btn">
+          <button  class="btn btn-success" type="button" (click)="addWork()">Hozzáad</button>
+        </span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div formArrayName="works" *ngFor="let work of getWorkArrayForm().controls; let i = index;">
+
+        <div [formGroupName]="i" class="input-group mb-1">
+          <input type="text" class="form-control" formControlName="work">
+          <span class="input-group-btn">
+           <button  class="btn btn-danger" type="button" (click)="removeWork(i)">Töröl</button>
+          </span>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="text-right">
+    <button
+      class="btn btn-primary btn-lg" type="submit"
+    >
+      Tovább</button>
+  </div>
+
+
+</form>

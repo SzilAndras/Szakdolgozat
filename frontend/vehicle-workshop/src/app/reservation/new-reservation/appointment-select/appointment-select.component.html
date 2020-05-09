@@ -1,0 +1,24 @@
+
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="év-hónap-nap"
+             name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-time-table [date]="model" (selected)="appointmentsSelected($event)"
+                [selectedAppointments]="appointments"></app-time-table>
+<hr>
+<div class="text-right">
+  <div class="btn-group">
+    <button class="btn btn-default btn-lg" (click)="onBack()">Vissza</button>
+    <button [disabled]="false" class="btn btn-primary btn-lg" (click)="onNext()">Tovább</button>
+
+  </div>
+
+</div>

@@ -1,5 +1,5 @@
 export enum AppointmentType {
-  TAKEOVER,
-  HANDOVER,
-  WORK
+  TAKEOVER = 'TAKEOVER',
+  HANDOVER = 'HANDOVER',
+  WORK = 'WORK'
 }

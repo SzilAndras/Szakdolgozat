@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-
+import {CommonModule} from '@angular/common';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [TimeTableComponent],
+  exports: [
+    TimeTableComponent
+  ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+
+  ],
+  providers: [
+  ],
 })
 export class SharedModule {}

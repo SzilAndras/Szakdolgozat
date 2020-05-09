@@ -1,5 +1,6 @@
 export enum AppointmentStatus {
-  SELECTED,
-  SUGGESTED,
-  ACCEPTED
+  SELECTED = 'SELECTED',
+  SUGGESTED = 'SUGGESTED',
+  ACCEPTED = 'ACCEPTED',
+  CHOSEN = 'CHOSEN'
 }

@@ -8,6 +8,7 @@ import {HomeModule} from "./home/home.module";
 import {ReservationModule} from "./reservation/reservation.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {RouterModule} from "@angular/router";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {RouterModule} from "@angular/router";
     HomeModule,
     ReservationModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
