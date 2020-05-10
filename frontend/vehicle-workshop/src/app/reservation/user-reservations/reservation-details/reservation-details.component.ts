@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ReservationInterface} from "../../../shared/model/interfaces/reservation.interface";
 import {AppointmentInterface} from "../../../shared/model/interfaces/appointment.interface";
 import {ReservationHttpService} from "../../../shared/service/http/reservation-http.service";
@@ -16,7 +16,8 @@ export class ReservationDetailsComponent implements OnInit {
   model: NgbDateStruct;
 
   id: number;
-  reservation: ReservationInterface;
+  @Input() reservation: ReservationInterface;
+
   handover: AppointmentInterface;
   selectHandover = false;
 
@@ -46,20 +47,30 @@ export class ReservationDetailsComponent implements OnInit {
     return values;
   }
 
+  get reservationStatus():string {
+    if (this.isAcceptedByAdmin() && this.isAcceptedByUser()) {
+      return 'A foglalás elfogadva.';
+    } else if(!this.isAcceptedByAdmin() && !this.isRejected()) {
+      return 'A foglalás a szerviz válaszára vár.'
+    } else if (this.isAcceptedByAdmin() && !this.isAcceptedByUser() && !this.isRejected()){
+      return 'A foglalás az ön megerősítésére vár.';
+    } else if (this.isRejected()) {
+      return 'A foglalás el lett utasítva.';
+    }
+  }
+
   onHandoverSelected(appointment: AppointmentInterface[]){
     this.handover = appointment[0];
   }
 
-  onChangeHandoverDate(): void {
-    console.log('onChangeHandoverDate');
-  }
 
   onAccept(){
+    // todo
 
   }
 
   onReject(){
-
+    // todo
   }
 
   onCancelHandoverSelect() {

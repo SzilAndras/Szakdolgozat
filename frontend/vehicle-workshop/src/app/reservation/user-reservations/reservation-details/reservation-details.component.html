@@ -1,10 +1,7 @@
 
 <div *ngIf="reservation !== undefined">
   <h3>Részletek ({{reservation.plateNumber}})</h3>
-  <h4 *ngIf="isAcceptedByAdmin() && isAcceptedByUser()">A foglalás elfogadva.</h4>
-  <h4 *ngIf="!isAcceptedByAdmin() && !isRejected()">A foglalás a szerviz válaszára vár.</h4>
-  <h4 *ngIf="isAcceptedByAdmin() && !isAcceptedByUser() && !isRejected()">A foglalás az ön megerősítésére vár.</h4>
-  <h4 *ngIf="isRejected()">A foglalás el lett utasítva.</h4>
+  <h4 >{{reservationStatus}}</h4>
   <div>
     <table class="table table-striped">
       <thead>
@@ -17,7 +14,7 @@
       </thead>
       <tbody>
       <ng-container *ngFor="let app of reservation.appointments">
-        <tr class="form-group" *ngIf="app.type !== 'Work'">
+        <tr class="form-group" *ngIf="app.type !== 'WORK'">
 
           <td>{{app.day | date: 'yyyy/MM/dd'}}</td>
           <td>{{app.time}} óra</td>
@@ -60,7 +57,7 @@
         [date]="model"
         [selectedAppointments]="reservation.appointments"
         [mode]="'HANDOVER'"
-        [abelToSelect]="['SELECTED', 'EMPTY']"
+        [abelToSelect]="['EMPTY']"
         [selectFor]="'SUGGESTED'"
         [typeFor]="'HANDOVER'"
         (selected)="onHandoverSelected($event)"></app-time-table>

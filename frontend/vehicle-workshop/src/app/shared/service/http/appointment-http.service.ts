@@ -13,13 +13,25 @@ export class AppointmentHttpService {
   getAppointmentsByDate(date: ({year: number, month: number, day: number})): AppointmentInterface[] {
     return [
       {id: 1,
-      day: "2020-05-09",
-      time: "8:00",
-      status: AppointmentStatus.ACCEPTED,
-      type: AppointmentType.WORK
-      },
+          day: "2020-05-10",
+          time: "8:00",
+          status: AppointmentStatus.ACCEPTED,
+          type: AppointmentType.WORK
+        },
       {id: 2,
-        day: "2020-05-09",
+        day: "2020-05-10",
+        time: "14:00",
+        status: AppointmentStatus.ACCEPTED,
+        type: AppointmentType.WORK
+      },
+      {id: 3,
+        day: "2020-05-11",
+        time: "8:00",
+        status: AppointmentStatus.ACCEPTED,
+        type: AppointmentType.WORK
+      },
+      {id: 4,
+        day: "2020-05-11",
         time: "14:00",
         status: AppointmentStatus.ACCEPTED,
         type: AppointmentType.WORK
