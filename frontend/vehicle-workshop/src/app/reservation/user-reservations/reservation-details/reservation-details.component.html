@@ -16,7 +16,7 @@
       <ng-container *ngFor="let app of reservation.appointments">
         <tr class="form-group" *ngIf="app.type !== 'WORK'">
 
-          <td>{{app.day | date: 'yyyy/MM/dd'}}</td>
+          <td>{{app.date | date: 'yyyy/MM/dd'}}</td>
           <td>{{app.time}} óra</td>
 
           <td *ngIf="app.type === 'TAKEOVER'">Átvétel</td>
@@ -33,7 +33,7 @@
   <div *ngIf="!isRejected() && !isAcceptedByUser() && isAcceptedByAdmin()">
     <p>Amennyiben nem megfelelő az átadás időpontja válasszon másikat itt!</p>
     <div *ngIf="handover !== undefined">
-      {{handover.day | date: 'yyyy/MM/dd'}}
+      {{handover.date | date: 'yyyy/MM/dd'}}
       {{handover.time}}
     </div>
 

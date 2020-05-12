@@ -24,7 +24,11 @@ export class OverviewComponent implements OnInit {
 
   onSend(): void {
     // TODO validate
-    this.saveReservationService.sendReservation();
+    this.saveReservationService.sendReservation().subscribe(
+      res => {
+        console.log(res);
+      }
+    );
 
   }
 

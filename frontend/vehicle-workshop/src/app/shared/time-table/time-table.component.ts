@@ -17,7 +17,7 @@ export class TimeTableComponent implements OnInit {
   readonly CHOSEN = CellStatus.CHOSEN;
 
   @Output() selected = new EventEmitter<AppointmentInterface[]>();
-  @Input() date: {year: number, month: number, day: number};
+  @Input() date: { year: number, month: number, day: number };
   @Input() selectedAppointments: AppointmentInterface[] = [];
 
   @Input() abelToSelect: CellStatus[] = [CellStatus.EMPTY];
@@ -33,8 +33,7 @@ export class TimeTableComponent implements OnInit {
   timeTable: TimeCellInterface[];
   selectedAppointment: AppointmentInterface;
 
-  constructor(
-    ) {
+  constructor() {
     this.refreshTimeTable();
   }
 
@@ -80,9 +79,9 @@ export class TimeTableComponent implements OnInit {
 
     for (let appo of this.selectedAppointments) {
       const idx = TimeByIndex[appo.time];
-      if (appo.day === this.getDay()){
+      if (appo.date === this.getDay()) {
         this.timeTable[idx] = {
-          status: CellStatus.CHOSEN, type: CellType[appo.type.toString()], time:appo.time, index: idx, isCurrent: true
+          status: CellStatus.CHOSEN, type: CellType[appo.type.toString()], time: appo.time, index: idx, isCurrent: true
         };
       }
     }
@@ -105,14 +104,14 @@ export class TimeTableComponent implements OnInit {
   onCellSelected(idx: number) {
     if (this.mode === TimeTableMode.RESERVATION) {
       if (this.isSelectable(idx)) {
-        const containedIdx = this.selectedAppointments.findIndex(appo => (appo.day === this.getDay() && TimeByIndex[appo.time] === idx));
-        containedIdx !== -1 ? this.selectedAppointments.splice(containedIdx, 1) :this.selectedAppointments.push({
+        const containedIdx = this.selectedAppointments.findIndex(appo => (appo.date === this.getDay() && TimeByIndex[appo.time] === idx));
+        containedIdx !== -1 ? this.selectedAppointments.splice(containedIdx, 1) : this.selectedAppointments.push({
           id: null,
-          day: this.getDay(),
+          date: this.getDay(),
           time: TimeByIndex[idx],
           status: AppointmentStatus.SELECTED,
           type: this.typeFor
-        })
+        });
       }
     }
     this.refreshTimeTable();
@@ -136,7 +135,7 @@ export class TimeTableComponent implements OnInit {
   }
 
   getDay() {
-    return this.date.year + '-' + this.date.month + '-' + this.date.day;
+    return this.date.year + '-' + (this.date.month < 10 ? '0' +  this.date.month :  this.date.month) + '-' + this.date.day;
   }
 
 }

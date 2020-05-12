@@ -42,7 +42,7 @@
   </thead>
   <tbody>
   <tr class="form-group" *ngFor="let app of reservation.appointments">
-    <td>{{app.day | date: 'yyyy/MM/dd'}}</td>
+    <td>{{app.date | date: 'yyyy/MM/dd'}}</td>
     <td>{{app.time}} óra</td>
     <td>Átvétel</td>
   </tr>

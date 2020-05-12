@@ -3,6 +3,7 @@ import {ReservationInterface} from "../model/interfaces/reservation.interface";
 import {Status} from "../model/enums/status.enum";
 import {AppointmentInterface} from "../model/interfaces/appointment.interface";
 import {ReservationHttpService} from "./http/reservation-http.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export class SaveReservationService implements OnInit{
     }
   }
 
-  sendReservation() {
-    this.http.save(this.reservation);
+  sendReservation(): Observable<ReservationInterface> {
+    return this.http.save(this.reservation);
   }
 }

@@ -32,7 +32,7 @@ public class Work {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
+    @JoinColumn(name = "reservation_id", insertable = false, updatable = false)
     private Reservation reservation;
 
     @CreatedDate

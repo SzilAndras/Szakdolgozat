@@ -39,10 +39,12 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private Status userStatus;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "reservation_id")
     private Set<Appointment> appointments;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "reservation_id")
     private Set<Work> works;
 
     @CreatedDate

@@ -17,13 +17,14 @@ export class UserReservationsComponent implements OnInit {
   constructor(private service: ReservationHttpService) { }
 
   ngOnInit() {
+    this.service.getUserReservations().subscribe(
+      res => this.reservations = res
+    );
   }
 
   setFilter(filter: ReservationFilterInterface){
     this.filter = filter;
     this.reservations = this.service.getReservationsFiltered(this.filter);
-    console.log('filter: ');
-    console.log(this.filter);
   }
 
   onSelect(id: number) {

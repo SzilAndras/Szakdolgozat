@@ -1,5 +1,6 @@
 package hu.bme.aut.reservationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.bme.aut.reservationservice.model.Enum.AppointmentStatus;
 import hu.bme.aut.reservationservice.model.Enum.AppointmentType;
 import lombok.*;
@@ -34,7 +35,7 @@ public class Appointment {
     private AppointmentType type;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
+    @JoinColumn(name = "reservation_id", insertable = false, updatable = false)
     private Reservation reservation;
 
     @CreatedDate
