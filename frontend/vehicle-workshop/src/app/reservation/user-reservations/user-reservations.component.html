@@ -1,0 +1,11 @@
+<div>
+  <app-reservation-filter (filtered)="setFilter($event)"></app-reservation-filter>
+</div>
+<div class="row well">
+  <div class="col-md-5">
+    <app-reservation-list [reservations]="reservations" (reservationSelected)="onSelect($event)"></app-reservation-list>
+  </div>
+  <div class="col-md-7">
+    <app-reservation-details [reservation]="selected"></app-reservation-details>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/home']">Főoldal</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/reservation']">Foglalás</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/my-reservations']">Foglalásaim</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/view-reservations']">Foglalások kezelése</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="nav navbar-btn navbar-right">
+    <button class="btn btn-default btn-primary" type="button" routerLink="/signin">Bejelentkezés</button>
+    <button class="btn btn-default btn-primary" type="button" routerLink="/signup">Regisztáció</button>
+  </div>
+  <div class="nav navbar-btn navbar-right">
+    <button class="btn btn-default btn-primary" type="button">Kijelentkezés</button>
+  </div>
+</nav>

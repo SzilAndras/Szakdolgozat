@@ -1,0 +1,22 @@
+<a
+  [ngClass] = "{'active': isSelected}"
+  class="list-group-item res-element row"
+  (click)="onSelect()">
+  <div class="col-md-10">
+    <p>
+      Típus: {{reservation.vehicleType}}
+    </p>
+    <p>
+      Rendszám: {{reservation.plateNumber}}
+    </p>
+    <p>
+      Alvázszám: {{reservation.vin}}
+    </p>
+  </div>
+  <div class="col-md-2">
+        <span [ngClass]="class"
+              data-toggle="tooltip" title="{{title}}"><fa-icon [icon]="icon"></fa-icon></span>
+
+  </div>
+
+</a>

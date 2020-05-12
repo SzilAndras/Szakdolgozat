@@ -1,0 +1,11 @@
+<div>
+  <div class="list-group pre-scrollable">
+    <ng-container *ngFor="let res of reservations; let i = index">
+      <app-reservation-item
+        [isSelected]="selected === res.id"
+        [reservation]="res"
+        (selected)="onSelect($event)">
+      </app-reservation-item>
+    </ng-container>
+  </div>
+</div>

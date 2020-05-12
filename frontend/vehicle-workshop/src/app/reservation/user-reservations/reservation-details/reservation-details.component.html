@@ -1,0 +1,131 @@
+
+<div *ngIf="reservation !== undefined">
+  <h3>Részletek ({{reservation.plateNumber}})</h3>
+  <h4 >{{reservationStatus}}</h4>
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Dátum</th>
+        <th>Időpont</th>
+        <th>Esemény</th>
+        <th>Állapot</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let app of reservation.appointments">
+        <tr class="form-group" *ngIf="app.type !== 'WORK'">
+
+          <td>{{app.day | date: 'yyyy/MM/dd'}}</td>
+          <td>{{app.time}} óra</td>
+
+          <td *ngIf="app.type === 'TAKEOVER'">Átvétel</td>
+          <td *ngIf="app.type === 'HANDOVER'">Átadás</td>
+
+          <td *ngIf="app.status === 'ACCEPTED'">Elfogadva</td>
+          <td *ngIf="app.status === 'SELECTED'">Függőben</td>
+          <td *ngIf="app.status === 'SUGGESTED'">Javasolt</td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!isRejected() && !isAcceptedByUser() && isAcceptedByAdmin()">
+    <p>Amennyiben nem megfelelő az átadás időpontja válasszon másikat itt!</p>
+    <div *ngIf="handover !== undefined">
+      {{handover.day | date: 'yyyy/MM/dd'}}
+      {{handover.time}}
+    </div>
+
+
+    <div *ngIf="selectHandover">
+      <div class="datepicker-container" >
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="év-hónap-nap"
+                     name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <app-time-table
+        *ngIf="model !== undefined"
+        [date]="model"
+        [selectedAppointments]="reservation.appointments"
+        [mode]="'HANDOVER'"
+        [abelToSelect]="['EMPTY']"
+        [selectFor]="'SUGGESTED'"
+        [typeFor]="'HANDOVER'"
+        (selected)="onHandoverSelected($event)"></app-time-table>
+      <div class="btn-group pull-right">
+        <button class="btn btn-default" (click)="onCancelHandoverSelect()">Mégse</button>
+        <button class="btn btn-primary" (click)="selectHandover = false">Elrejt</button>
+      </div>
+    </div>
+    <button *ngIf="!selectHandover" class="btn btn-primary" (click)="selectHandover = true">Új választása</button>
+  </div>
+
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Munka</th>
+        <th>Idő(perc)</th>
+        <th>Ár(Ft)</th>
+        <th>Állapot</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="form-group" *ngFor="let w of reservation.works">
+        <td>{{w.work}}</td>
+        <td>{{w.periodOfTime}}</td>
+        <td>{{w.price}}</td>
+        <td *ngIf="w.status == 'PENDING'">Függőben</td>
+        <td *ngIf="w.status == 'ACCEPTED'">Elfogadva</td>
+        <td *ngIf="w.status == 'REJECTED'">Elutasítva</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Összes idő(perc)</th>
+        <th>Összes ár(Ft)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{valuesSum().timeSum}}</td>
+        <td>{{valuesSum().priceSum}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+
+  <br>
+  <!--
+  <div>
+    <h4>Megjegyzések</h4>
+    <p *ngFor="let comm of reservation.comments"> {{comm.comment}}</p>
+    <ul class="list-group row">
+      <li *ngFor="let comm of new-reservation.comments" class="list-group-itme">
+        {{comm.comment}}
+      </li>
+    </ul>
+  </div>
+-->
+
+  <div class="btn-group pull-right">
+    <button [disabled]="!(!isRejected() && !(isAcceptedByUser() && isAcceptedByAdmin()))" class="btn btn-danger" (click)="onReject()">Elutasítás</button>
+    <button [disabled]="!(!isRejected() && (!isAcceptedByUser() && isAcceptedByAdmin()))" class="btn btn-primary" (click)="onAccept()">Elfogadás</button>
+  </div>
+</div>
