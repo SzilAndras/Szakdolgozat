@@ -1,0 +1,50 @@
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #f = "ngForm" class="well" (ngSubmit)="onSave({points: points.control.value, description: comment.control.value})">
+  <div class="modal-body">
+
+      <div class="form-group">
+        <label for="points">Pontozás:</label>
+        <select
+          class="form-control"
+          ngModel
+          #points="ngModel"
+          id="points"
+          name="points"
+          required>
+          <option *ngFor="let point of pointOptions" [value]="point.value">
+            {{ point.value }}
+          </option>
+        </select>
+      </div>
+      <span class="help-block" *ngIf="!points.valid && points.touched">Adjon meg egy pontszámot.</span>
+
+
+      <div class="form-group">
+        <label for="comment">Értékelés:</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          id="comment"
+          ngModel
+          required
+          minlength="10"
+          maxlength="200"
+          name="comment"
+          #comment="ngModel"
+        ></textarea>
+      </div>
+      <span class="help-block" *ngIf="!comment.valid && comment.touched">Az értékelésnek legalább 10 karakter hosszúnak kell lennie és maximum 200-nak.</span>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-dark" [disabled]="!f.valid">Küldés</button>
+  </div>
+  </form>
+</ng-template>
