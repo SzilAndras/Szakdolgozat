@@ -1,0 +1,22 @@
+<nav>
+  <ul *ngIf="page" class="pagination justify-content-center">
+    <li [ngClass]="{'disabled': page.first}" class="page-item">
+      <button class="page-link" (click)="onPrevious()">Előző</button>
+    </li>
+    <li *ngIf="!page.first" class="page-item">
+      <button class="page-link" (click)="onPrevious()">{{page.number}}</button>
+    </li>
+    <li class="page-item active">
+      <span class="page-link">
+        {{page.number+1}}
+        <span class="sr-only">(current)</span>
+      </span>
+    </li>
+    <li *ngIf="!page.last" class="page-item">
+      <button class="page-link" (click)="onNext()">{{page.number + 2}}</button>
+    </li>
+    <li [ngClass]="{'disabled': page.last}" class="page-item">
+      <button class="page-link" (click)="onNext()">Következő</button>
+    </li>
+  </ul>
+</nav>

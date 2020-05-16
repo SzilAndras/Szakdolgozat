@@ -57,9 +57,6 @@
         [date]="model"
         [selectedAppointments]="reservation.appointments"
         [mode]="'HANDOVER'"
-        [abelToSelect]="['EMPTY']"
-        [selectFor]="'SUGGESTED'"
-        [typeFor]="'HANDOVER'"
         (selected)="onHandoverSelected($event)"></app-time-table>
       <div class="btn-group pull-right">
         <button class="btn btn-default" (click)="onCancelHandoverSelect()">Mégse</button>

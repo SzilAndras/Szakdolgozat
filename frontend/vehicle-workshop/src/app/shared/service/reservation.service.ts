@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class SaveReservationService implements OnInit{
+export class ReservationService {
   private reservation: ReservationInterface;
 
   constructor(private http: ReservationHttpService) {
@@ -26,18 +26,19 @@ export class SaveReservationService implements OnInit{
       price: undefined,
       status: Status.PENDING
     }));
+    console.log(this.reservation);
   }
 
   public refreshAppointments(appointments: AppointmentInterface[]) {
     this.reservation.appointments = appointments;
   }
 
-  ngOnInit(): void {
-    this.resetReservation();
-  }
-
   public getReservation(): ReservationInterface {
     return this.reservation;
+  }
+
+  public setReservation(res: ReservationInterface) {
+    this.reservation = res;
   }
 
   private resetReservation(): void{
@@ -52,10 +53,14 @@ export class SaveReservationService implements OnInit{
       comments: [],
       adminStatus: Status.PENDING,
       userStatus: Status.PENDING
-    }
+    };
   }
 
   sendReservation(): Observable<ReservationInterface> {
-    return this.http.save(this.reservation);
+    const resObs = this.http.save(this.reservation);
+    this.resetReservation();
+
+    // TODO
+    return resObs;
   }
 }

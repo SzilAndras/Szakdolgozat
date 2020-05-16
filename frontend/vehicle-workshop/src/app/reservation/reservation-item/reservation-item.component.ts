@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ReservationInterface} from "../../shared/model/interfaces/reservation.interface";
 import {Status} from "../../shared/model/enums/status.enum";
-import {SaveReservationService} from "../../shared/service/save-reservation.service";
+import {ReservationService} from "../../shared/service/reservation.service";
 import {faQuestion} from "@fortawesome/free-solid-svg-icons/faQuestion";
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
@@ -20,7 +20,7 @@ export class ReservationItemComponent implements OnInit {
   title = '';
   class = '';
 
-  constructor(private service: SaveReservationService) {
+  constructor(private service: ReservationService) {
     this.reservation = service.getReservation();
   }
 

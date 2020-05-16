@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SaveReservationService} from "../../../shared/service/save-reservation.service";
+import {ReservationService} from "../../../shared/service/reservation.service";
 import {Router} from "@angular/router";
 import {ReservationInterface} from "../../../shared/model/interfaces/reservation.interface";
 
@@ -11,7 +11,7 @@ import {ReservationInterface} from "../../../shared/model/interfaces/reservation
 export class OverviewComponent implements OnInit {
   reservation: ReservationInterface;
 
-  constructor(private saveReservationService: SaveReservationService, private router: Router) {
+  constructor(private saveReservationService: ReservationService, private router: Router) {
     this.reservation = this.saveReservationService.getReservation();
   }
 

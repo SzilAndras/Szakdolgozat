@@ -1,5 +1,4 @@
-<div>
-  <div class="list-group pre-scrollable">
+  <div class="list-group" style="overflow-y: scroll; height: 70vh">
     <ng-container *ngFor="let res of reservations; let i = index">
       <app-reservation-item
         [isSelected]="selected === res.id"
@@ -8,4 +7,4 @@
       </app-reservation-item>
     </ng-container>
   </div>
-</div>
+

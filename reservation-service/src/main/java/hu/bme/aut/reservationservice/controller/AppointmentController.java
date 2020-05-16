@@ -19,9 +19,11 @@ public class AppointmentController {
     AppointmentService appointmentService;
 
     @GetMapping
-    public List<AppointmentDto> getAll() {
-        return appointmentService.getAll();
+    public List<AppointmentDto> getAllByDate(@RequestParam("date") String date) {
+        System.out.println(date);
+        return appointmentService.getAllByDate(date);
     }
+
 
     @GetMapping(path = "/byDateAndStatus/{date}/{status}")
     public List<AppointmentDto> getAllByDateAndStatus(@PathVariable("date") Date date,

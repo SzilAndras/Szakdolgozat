@@ -6,12 +6,11 @@ import hu.bme.aut.reservationservice.model.ReservationDto;
 import hu.bme.aut.reservationservice.repository.specification.ReservationSpecificationsBuilder;
 import hu.bme.aut.reservationservice.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 @RestController
 @RequestMapping("/reservation")
@@ -24,8 +23,10 @@ public class ReservationController {
 
 
     @GetMapping
-    public List<ReservationDto> getAllByFilter(@RequestParam(value = "search") String search) {
-        return reservationService.getAllByFilter(search);
+    public Slice<ReservationDto> getByFilter(@RequestParam("page") int page,
+                                                @RequestParam("size") int size,
+                                                @RequestParam("search") String search) {
+        return reservationService.getByFilter(search, page, size);
     }
 
 
@@ -33,24 +34,13 @@ public class ReservationController {
     @PostMapping(path = "/save")
     public ReservationDto save(@RequestBody ReservationDto reservation) {
         reservation.setUserId(userID);
-        System.out.print(reservation);
+        reservation.setUserStatus(Status.PENDING);
 
         return reservationService.save(reservation);
     }
 
-    @DeleteMapping(path = "/delete")
-    public void delete(@RequestBody ReservationDto reservation) { //
-        reservationService.delete(reservation.getId());
+    @PostMapping(path = "/accept")
+    public ReservationDto acceptByUser(@RequestParam("id") Long id) {
+        return null;
     }
-
-    @GetMapping(path = "/byUserStatus/{status}")
-    public List<ReservationDto> getAllByUserStatus(@PathVariable("status") Status status) {
-        return reservationService.getAllByUserStatus(status);
-    }
-
-    @GetMapping(path = "/byAdminStatus/{status}")
-    public List<ReservationDto> getAllByAdminStatus(@PathVariable("status") Status status) {
-        return reservationService.getAllByAdminStatus(status);
-    }
-
 }

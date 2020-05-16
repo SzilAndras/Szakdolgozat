@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {faSearch} from "@fortawesome/free-solid-svg-icons/faSearch";
-import {ReservationFilterInterface} from "../../shared/model/interfaces/reservation-filter.interface";
-import {ReservationFilterStatus} from "../../shared/model/enums/reservation-filter-status.enum";
+import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
+import {ReservationFilterInterface} from '../../shared/model/interfaces/reservation-filter.interface';
+import {ReservationFilterStatus} from '../../shared/model/enums/reservation-filter-status.enum';
 
 @Component({
   selector: 'app-reservation-filter',
@@ -23,7 +23,7 @@ export class ReservationFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.filter = JSON.parse(localStorage.getItem('reservation-filter'));
-    if(!this.filter) {
+    if (!this.filter) {
       this.filter = {status: ReservationFilterStatus.ALL, plateNumber: '', type: ''};
     }
     this.onFilter();

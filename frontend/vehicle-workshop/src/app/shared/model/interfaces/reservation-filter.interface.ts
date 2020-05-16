@@ -1,4 +1,4 @@
-import {ReservationFilterStatus} from "../enums/reservation-filter-status.enum";
+import {ReservationFilterStatus} from '../enums/reservation-filter-status.enum';
 
 export interface ReservationFilterInterface {
   status: ReservationFilterStatus;

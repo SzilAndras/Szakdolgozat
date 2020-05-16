@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@Setter //(value = AccessLevel.PACKAGE)
 @Getter
 public class Appointment {
 
@@ -23,6 +23,7 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Temporal(TemporalType.DATE)
     private Date date; //TODO date+time?
     private String time; // TODO
 

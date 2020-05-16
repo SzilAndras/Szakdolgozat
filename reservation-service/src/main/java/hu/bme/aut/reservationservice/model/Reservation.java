@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@Setter //(value = AccessLevel.PACKAGE)
 @Getter
 public class Reservation {
 
