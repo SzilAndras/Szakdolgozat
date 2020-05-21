@@ -5,6 +5,8 @@ export interface TimeCellInterface {
   status: CellStatus;
   type: CellType;
   time: string;
-  index: number
+  index: number;
   isCurrent?: boolean;
+  isDateOk?: boolean;
+  isSelectable?: boolean;
 }

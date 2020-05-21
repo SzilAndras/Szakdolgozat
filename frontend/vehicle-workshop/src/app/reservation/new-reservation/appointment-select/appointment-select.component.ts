@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AppointmentInterface} from "../../../shared/model/interfaces/appointment.interface";
-import {SaveReservationService} from "../../../shared/service/save-reservation.service";
-import {Router} from "@angular/router";
-import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
-import {faCalendarAlt} from "@fortawesome/free-solid-svg-icons";
+import {Component, OnInit} from '@angular/core';
+import {AppointmentInterface} from '../../../shared/model/interfaces/appointment.interface';
+import {ReservationService} from '../../../shared/service/reservation.service';
+import {Router} from '@angular/router';
+import {NgbDateStruct, NgbCalendar, NgbDate, NgbPeriod} from '@ng-bootstrap/ng-bootstrap';
+import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
+import {AppointmentHttpService} from '../../../shared/service/http/appointment-http.service';
 
 @Component({
   selector: 'app-appointment-select',
@@ -13,17 +14,19 @@ import {faCalendarAlt} from "@fortawesome/free-solid-svg-icons";
 export class AppointmentSelectComponent implements OnInit {
   faCalendar = faCalendarAlt;
   appointments: AppointmentInterface[] = [];
+  dateAppointments: AppointmentInterface[] = [];
   model: NgbDateStruct;
 
-  constructor(private saveReservationService: SaveReservationService,
+  constructor(private saveReservationService: ReservationService,
               private router: Router,
-              private calendar: NgbCalendar) {
-    this.appointments = saveReservationService.getReservation().appointments;
+              private calendar: NgbCalendar,
+              private appointmetHttp: AppointmentHttpService) {
     this.model = calendar.getToday();
-    console.log(this.model);
   }
 
   ngOnInit(): void {
+    this.getDateAppointments();
+    this.appointments = this.saveReservationService.getReservation().appointments;
   }
 
   appointmentsSelected(appointments: AppointmentInterface[]) {
@@ -32,6 +35,15 @@ export class AppointmentSelectComponent implements OnInit {
     console.log(this.model);
   }
 
+  get maxDate(): NgbDate {
+    return this.calendar.getNext(this.calendar.getToday(), 'w' as NgbPeriod, 2);
+  }
+
+  getToday(): NgbDate {
+    return  this.calendar.getToday();
+  }
+
+
   onBack() {
     this.router.navigate(['reservation/vehicle-conf']);
 
@@ -39,6 +51,20 @@ export class AppointmentSelectComponent implements OnInit {
 
   onNext() {
     this.router.navigate(['reservation/overview']);
+  }
+
+  get date() {
+    return this.model.year + '-' + (this.model.month < 10 ? '0' +  this.model.month :  this.model.month) + '-' + (this.model.day < 10 ? '0' +  this.model.day :  this.model.day);
+  }
+
+  getDateAppointments() {
+    this.appointmetHttp.getAppointmentsByDate(this.date).subscribe(
+      appo => this.dateAppointments = appo
+    );
+  }
+
+  onDateChanged() {
+    this.getDateAppointments();
   }
 
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ReservationInterface} from "../../../shared/model/interfaces/reservation.interface";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {SaveReservationService} from "../../../shared/service/save-reservation.service";
+import {ReservationService} from "../../../shared/service/reservation.service";
 import {Router} from "@angular/router";
 
 interface VehicleConf {
@@ -24,7 +24,7 @@ export class VehicleConfigurationComponent implements OnInit {
   reservationForm: FormGroup;
   newWork: FormGroup = this.createWork();
 
-  constructor(private formBuilder: FormBuilder, private saveReservationService: SaveReservationService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private saveReservationService: ReservationService, private router: Router) {
     this.reservation = this.saveReservationService.getReservation();
   }
 

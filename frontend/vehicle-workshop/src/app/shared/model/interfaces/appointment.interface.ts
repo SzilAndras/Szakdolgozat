@@ -3,7 +3,7 @@ import {AppointmentType} from "../enums/appointmentType.enum";
 
 export interface AppointmentInterface {
   id: number;
-  day: string;
+  date: string;
   time: string;
   status: AppointmentStatus;
   type: AppointmentType;

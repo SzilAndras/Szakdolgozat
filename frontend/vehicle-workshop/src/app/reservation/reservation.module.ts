@@ -16,12 +16,14 @@ import { ReservationItemComponent } from './reservation-item/reservation-item.co
 import { ReservationFilterComponent } from './reservation-filter/reservation-filter.component';
 import { ReservationListComponent } from './reservation-list/reservation-list.component';
 import { ReservationDetailsComponent } from './user-reservations/reservation-details/reservation-details.component';
+import { AdminReservationActualComponent } from './admin-reservation/admin-reservation-actual/admin-reservation-actual.component';
+import { AdminReservationEditComponent } from './admin-reservation/admin-reservation-edit/admin-reservation-edit.component';
 
 
 
 
 @NgModule({
-  declarations: [VehicleConfigurationComponent, AppointmentSelectComponent, OverviewComponent, ReservationHeaderComponent, NewReservationComponent, UserReservationsComponent, AdminReservationComponent, ReservationItemComponent, ReservationFilterComponent, ReservationListComponent, ReservationDetailsComponent],
+  declarations: [VehicleConfigurationComponent, AppointmentSelectComponent, OverviewComponent, ReservationHeaderComponent, NewReservationComponent, UserReservationsComponent, AdminReservationComponent, ReservationItemComponent, ReservationFilterComponent, ReservationListComponent, ReservationDetailsComponent, AdminReservationActualComponent, AdminReservationEditComponent],
   imports: [
     CommonModule,
     RouterModule,

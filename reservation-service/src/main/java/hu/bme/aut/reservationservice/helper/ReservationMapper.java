@@ -26,7 +26,7 @@ public final class ReservationMapper {
                                 .periodOfTime(work.getPeriodOfTime())
                                 .price(work.getPrice())
                                 .status(work.getStatus())
-                                .workName(work.getWorkName())
+                                .work(work.getWork())
                                 .build()).collect(Collectors.toSet()))
                 .appointments(reservation.getAppointments().stream().map(AppointmentMapper::mapToDto).collect(Collectors.toSet()))
                 .build();
@@ -47,7 +47,7 @@ public final class ReservationMapper {
                                 .periodOfTime(work.getPeriodOfTime())
                                 .price(work.getPrice())
                                 .status(work.getStatus())
-                                .workName(work.getWorkName())
+                                .work(work.getWork())
                                 .build()).collect(Collectors.toSet()))
                 .appointments(reservation.getAppointments().stream().map(AppointmentMapper::mapFromDto).collect(Collectors.toSet()))
                 .build();

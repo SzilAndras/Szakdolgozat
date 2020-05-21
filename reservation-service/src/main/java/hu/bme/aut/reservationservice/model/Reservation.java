@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@Setter //(value = AccessLevel.PACKAGE)
 @Getter
 public class Reservation {
 
@@ -39,10 +39,12 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private Status userStatus;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "reservation_id")
     private Set<Appointment> appointments;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "reservation_id")
     private Set<Work> works;
 
     @CreatedDate

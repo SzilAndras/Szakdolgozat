@@ -5,12 +5,20 @@
     </tr>
     <tr class="table">
       <ng-container *ngFor="let cell of timeTable; let j = index">
-        <td *ngIf="isSelectable(j) && cell.status !== CHOSEN" class="text-center empty"
-            (click)="onCellSelected(j)">{{getCellText(j)}}</td>
-        <td *ngIf="isSelectable(j) && cell.status === CHOSEN" class="text-center chosen" (click)="onCellSelected(j)">{{getCellText(j)}}</td>
-        <td *ngIf="!isSelectable(j) && cell.status === CHOSEN" class="text-center chosen-not-allowed" (click)="onCellSelected(j)">{{getCellText(j)}}</td>
-        <td *ngIf="!isSelectable(j) && cell.status !== CHOSEN" class="text-center reserved" (click)="onCellSelected(j)">{{getCellText(j)}}</td>
+        <td *ngIf="cell.isSelectable && cell.status !== CHOSEN"
+            class="text-center empty"
+            (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
+        <td *ngIf="cell.isSelectable && cell.status === CHOSEN"
+            class="text-center chosen"
+            (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
+        <td *ngIf="!cell.isSelectable && cell.status === CHOSEN"
+            class="text-center chosen-not-allowed"
+            (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
+        <td *ngIf="!cell.isSelectable && cell.status !== CHOSEN"
+            class="text-center reserved"
+            (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
       </ng-container>
     </tr>
   </table>
+  {{gettable}}
 </div>

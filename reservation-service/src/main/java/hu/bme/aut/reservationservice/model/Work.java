@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@Setter //(value = AccessLevel.PACKAGE)
 @Getter
 public class Work {
 
@@ -22,7 +22,7 @@ public class Work {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String workName;
+    private String work;
 
     private Integer periodOfTime;
 
@@ -32,7 +32,7 @@ public class Work {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
+    @JoinColumn(name = "reservation_id", insertable = false, updatable = false)
     private Reservation reservation;
 
     @CreatedDate

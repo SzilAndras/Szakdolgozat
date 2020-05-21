@@ -1,5 +1,6 @@
 package hu.bme.aut.reservationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.bme.aut.reservationservice.model.Enum.AppointmentStatus;
 import hu.bme.aut.reservationservice.model.Enum.AppointmentType;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@Setter //(value = AccessLevel.PACKAGE)
 @Getter
 public class Appointment {
 
@@ -22,6 +23,7 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Temporal(TemporalType.DATE)
     private Date date; //TODO date+time?
     private String time; // TODO
 
@@ -34,7 +36,7 @@ public class Appointment {
     private AppointmentType type;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
+    @JoinColumn(name = "reservation_id", insertable = false, updatable = false)
     private Reservation reservation;
 
     @CreatedDate

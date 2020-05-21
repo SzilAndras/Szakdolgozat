@@ -5,24 +5,25 @@ import hu.bme.aut.reservationservice.model.Enum.AppointmentStatus;
 import hu.bme.aut.reservationservice.model.Enum.AppointmentType;
 import hu.bme.aut.reservationservice.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
-@RestController("/appointment")
+@RestController
+@RequestMapping("/appointment")
 public class AppointmentController {
+    long UserID = 1;
 
     @Autowired
     AppointmentService appointmentService;
 
     @GetMapping
-    public List<AppointmentDto> getAll() {
-        return appointmentService.getAll();
+    public List<AppointmentDto> getAllByDate(@RequestParam("date") String date) {
+        System.out.println(date);
+        return appointmentService.getAllByDate(date);
     }
+
 
     @GetMapping(path = "/byDateAndStatus/{date}/{status}")
     public List<AppointmentDto> getAllByDateAndStatus(@PathVariable("date") Date date,

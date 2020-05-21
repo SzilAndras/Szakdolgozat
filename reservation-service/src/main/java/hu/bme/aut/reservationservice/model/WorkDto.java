@@ -10,7 +10,7 @@ public class WorkDto {
 
     private Long id;
 
-    private String workName;
+    private String work;
 
     private Integer periodOfTime;
 

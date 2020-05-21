@@ -13,7 +13,7 @@ public class ReservationDto {
 
     private Long id;
 
-    private Long userId; // TODO manytoone??
+    private Long userId;
 
     private VehicleType vehicleType;
 

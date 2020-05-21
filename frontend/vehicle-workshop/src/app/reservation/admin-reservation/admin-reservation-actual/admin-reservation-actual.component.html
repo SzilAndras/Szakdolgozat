@@ -1,0 +1,3 @@
+<app-reservation-filter (filtered)="setFilter($event)"></app-reservation-filter>
+<app-paginator [page]="page" (pagingTo)="refreshReservations($event)"></app-paginator>
+<app-reservation-list [reservations]="reservations" (reservationSelected)="onSelected($event)"></app-reservation-list>
