@@ -149,8 +149,8 @@
         <app-time-table
           [mode] = "'WORK'"
           [date]="workDate"
-          [maxDate]="{date: maxDate, time: 0}"
-          [minDate]=" {date: getToday(), time: 0}"
+          [maxDate]="handoverDateTime || maxDateTime"
+          [minDate]="takeoverDateTime"
           [selectedAppointments]="appointments"
           [dateAppointments]="dateAppointmentsWorks"
           (selected)="onAppointmentSelected($event)">
@@ -159,7 +159,6 @@
       </div>
     </div>
   </div>
-
 
   <hr>
 
@@ -190,7 +189,7 @@
             <div class="input-group">
               <input class="form-control" placeholder="év-hónap-nap"
                      name="dp" [(ngModel)]="handoverDate" ngbDatepicker #d="ngbDatepicker"
-                     (dateSelect)="onDateChange(false, $event)">
+                     (dateSelect)="onDateChange(true, $event)">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
               </div>
@@ -200,8 +199,8 @@
       <app-time-table
         [mode] = "'HANDOVER'"
         [date]="handoverDate"
-        [maxDate]="{date: maxDate, time: 0}"
-        [minDate]=" {date: getToday(), time: 0}"
+        [maxDate]="maxDateTime"
+        [minDate]=" lastWorkDateTime"
         [selectedAppointments]="appointments"
         [dateAppointments]="dateAppointmentsHandover"
         (selected)="onAppointmentSelected($event)"

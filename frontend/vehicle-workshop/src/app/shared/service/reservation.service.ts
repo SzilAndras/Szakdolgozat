@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 })
 export class ReservationService {
   private reservation: ReservationInterface;
+  private result = new Observable();
 
   constructor(private http: ReservationHttpService) {
     this.resetReservation();
@@ -58,6 +59,10 @@ export class ReservationService {
 
   sendReservation(): Observable<ReservationInterface> {
     const resObs = this.http.save(this.reservation);
+    resObs.subscribe(
+      res => {
+      }
+    )
     this.resetReservation();
 
     // TODO
