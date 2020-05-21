@@ -14,9 +14,9 @@ import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './time-table.component.html',
   styleUrls: ['./time-table.component.scss']
 })
-export class TimeTableComponent implements OnInit, OnChanges, DoCheck {
+export class TimeTableComponent implements OnInit, DoCheck {
   readonly CHOSEN = CellStatus.CHOSEN;
-  readonly SELECTED = CellStatus.SELECTED;
+
   oldWorksLength = 0;
   oldHandover = '';
   oldDate: NgbDate;
@@ -46,16 +46,6 @@ export class TimeTableComponent implements OnInit, OnChanges, DoCheck {
 
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-/*    const newTime = this.selectedAppointments.find(app => app.type === AppointmentType.HANDOVER)?.time || '';
-    if (this.selectedAppointments) {
-      this.oldHandover = newTime;
-      this.oldWorksLength = this.selectedAppointments.length;
-    }
-    this.refreshTimeTable();*/
-
-  }
-
   ngDoCheck(): void {
     const newTime = this.selectedAppointments.find(app => app.type === AppointmentType.HANDOVER)?.time || '';
     if (this.selectedAppointments &&
@@ -66,8 +56,8 @@ export class TimeTableComponent implements OnInit, OnChanges, DoCheck {
       this.oldHandover = newTime;
       this.oldWorksLength = this.selectedAppointments.length;
       this.oldDate = this.date;
-      this.oldMaxDate = this.maxDate.date;
-      this.oldMinDate = this.minDate.date;
+      this.oldMaxDate = this.maxDate?.date;
+      this.oldMinDate = this.minDate?.date;
       this.refreshTimeTable();
     }
   }
@@ -131,38 +121,14 @@ export class TimeTableComponent implements OnInit, OnChanges, DoCheck {
       (status === 'EMPTY' || (status === CellStatus.CHOSEN && type === this.mode.toString()));
   }
 
-  get gettable() {
-    return JSON.stringify(this.timeTable);
-  }
-
   isDateOk(idx: number) {
     if (!this.date || !this.minDate || !this.maxDate) {
       return false;
     }
-    const dateIsEqual = (this.minDate.date.equals(this.date) &&  this.minDate.time < idx) ||
-      (this.maxDate.date.equals(this.date) &&  this.maxDate.time > idx);
-    /* (this.date.year === this.minDate.date.year &&
-      this.date.month === this.minDate.date.month &&
-      this.date.day === this.minDate.date.day &&
-      this.minDate.time <= TimeByIndex[cell.time]) ||
-      (this.date.year === this.maxDate.date.year &&
-        this.date.month === this.maxDate.date.month &&
-        this.date.day === this.maxDate.date.day &&
-        this.maxDate.time >= TimeByIndex[cell.time]);*/
+    const dateIsEqual = (this.minDate.date.equals(this.date) && +TimeByIndex[this.minDate.time] < idx) ||
+      (this.maxDate.date.equals(this.date) &&  +TimeByIndex[this.maxDate.time] > idx);
     const minIsOk = this.minDate.date.before(this.date);
-    /*(this.date.year > this.minDate.date.year ||
-      (this.date.year === this.minDate.date.year &&
-        (this.date.month > this.minDate.date.month ||
-          (this.date.month === this.minDate.date.month &&
-            this.date.day > this.minDate.date.day))));*/
     const maxIsOk = this.maxDate.date.after(this.date);
-
-
-    /*(this.date.year < this.maxDate.date.year ||
-      (this.date.year === this.maxDate.date.year &&
-        (this.date.month < this.maxDate.date.month ||
-          (this.date.month === this.maxDate.date.month &&
-            this.date.day < this.maxDate.date.day))));*/
     return (dateIsEqual || (minIsOk && maxIsOk));
   }
 
@@ -172,7 +138,8 @@ export class TimeTableComponent implements OnInit, OnChanges, DoCheck {
     }
 
     const containedIdx = this.selectedAppointments.findIndex(appo =>
-      (appo.date === this.getDay() && TimeByIndex[appo.time] === cell.time));
+      (appo.date === this.getDay() && TimeByIndex[appo.time] === TimeByIndex[cell.time]));
+
     if (containedIdx === -1) {
       if (this.mode !== TimeTableMode.WORKSELECT) {
         this.selectedAppointments = this.selectedAppointments.filter(appo =>

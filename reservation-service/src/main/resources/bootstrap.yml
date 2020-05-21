@@ -1,21 +1,7 @@
 spring:
   application:
     name: reservation-service
-  cloud:
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        instance-id: "${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,999999]}"
 
 server.port: 8081
-
----
-spring:
-  profiles: zone1
-  cloud:
-    consul:
-      discovery:
-        instanceZone: zone1
 
 
