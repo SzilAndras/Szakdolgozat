@@ -18,7 +18,6 @@ public class RatingService {
     public List<RatingDto> getAllRating() {
         return ratingRepository.findAll().stream().map(rating -> RatingDto.builder()
                 .id(rating.getId())
-                .authorId(rating.getAuthorId())
                 .authorName(rating.getAuthorName())
                 .score(rating.getScore())
                 .comment(rating.getComment())
@@ -26,10 +25,9 @@ public class RatingService {
                 .build()).collect(Collectors.toList());
     }
 
-    public void createRating(RatingDto rating) {
+    public void createRating(RatingDto rating, String user) {
         ratingRepository.save(Rating.builder()
-                .authorId(rating.getAuthorId())
-                .authorName(rating.getAuthorName())
+                .authorName(user)
                 .score(rating.getScore())
                 .comment(rating.getComment())
                 .build());

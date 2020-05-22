@@ -18,7 +18,6 @@ public class NewsService {
     public List<NewsDto> getAllNews() {
         return newsRepository.findAll().stream().map(news -> NewsDto.builder()
                 .id(news.getId())
-                .authorId(news.getAuthorId())
                 .authorName(news.getAuthorName())
                 .createdDate(news.getCreatedDate())
                 .lastModifiedDate(news.getLastModifiedDate())
@@ -28,18 +27,16 @@ public class NewsService {
         ).collect(Collectors.toList());
     }
 
-    public NewsDto saveNews(NewsDto news) {
+    public NewsDto saveNews(NewsDto news, String author) {
         News newNews = newsRepository.save(
                 News.builder()
                 .tags(news.getTags())
-                .authorId(news.getAuthorId())
-                .authorName(news.getAuthorName())
+                .authorName(author)
                 .text(news.getText())
                 .build()
         );
         return NewsDto.builder()
                 .id(newNews.getId())
-                .authorId(newNews.getAuthorId())
                 .authorName(newNews.getAuthorName())
                 .createdDate(newNews.getCreatedDate())
                 .lastModifiedDate(newNews.getLastModifiedDate())

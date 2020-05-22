@@ -3,10 +3,8 @@ package hu.bme.aut.reservationservice.rating.controller;
 import hu.bme.aut.reservationservice.rating.model.RatingDto;
 import hu.bme.aut.reservationservice.rating.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,9 +20,10 @@ public class RatingController {
         return ratingService.getAllRating();
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping
-    public void save(RatingDto rating) {
-        ratingService.createRating(rating);
+    public void save(RatingDto rating, @RequestAttribute("user") String user) {
+        ratingService.createRating(rating, user);
     }
 
 

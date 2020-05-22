@@ -5,7 +5,7 @@ import hu.bme.aut.reservationservice.user.model.RegistrationDto;
 import hu.bme.aut.reservationservice.user.model.User;
 import hu.bme.aut.reservationservice.user.model.UserDto;
 import hu.bme.aut.reservationservice.user.model.enums.Role;
-import hu.bme.aut.reservationservice.user.repository.UserRepository;
+import hu.bme.aut.reservationservice.shared.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,5 +49,9 @@ public class UserService {
 
     public User findUserByUsername(String name) {
         return userRepository.findByUsername(name);
+    }
+
+    public UserDto findUserByUsernameDto(String name) {
+        return UserMapper.mapToDto(userRepository.findByUsername(name));
     }
 }

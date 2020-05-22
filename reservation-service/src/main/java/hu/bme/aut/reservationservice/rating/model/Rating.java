@@ -20,9 +20,6 @@ public class Rating {
     private Long id;
 
     @Column
-    private Long authorId;
-
-    @Column
     private String authorName;
 
     @Column
