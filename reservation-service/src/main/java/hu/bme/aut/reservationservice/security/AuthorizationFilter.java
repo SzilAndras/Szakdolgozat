@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -14,10 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-import static hu.bme.aut.reservationservice.security.SecurityConstants.HEADER_NAME;
-import static hu.bme.aut.reservationservice.security.SecurityConstants.KEY;
+import static hu.bme.aut.reservationservice.security.SecurityConstants.*;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -45,13 +47,21 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken authenticate(HttpServletRequest request) {
         String token = request.getHeader(HEADER_NAME);
         if (token != null) {
-            Claims user = Jwts.parser()
+            Claims claims = Jwts.parser()
                     .setSigningKey(Keys.hmacShaKeyFor(KEY.getBytes()))
                     .parseClaimsJws(token)
                     .getBody();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            if (claims != null) {
+                Collection authorities =
+                        Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                                .map(SimpleGrantedAuthority::new)
+                                .collect(Collectors.toList());
+                request.setAttribute("user", claims.getSubject());
+                request.setAttribute("role", claims.get("Authorities"));
+                System.out.println("authenticate");
+
+                return new UsernamePasswordAuthenticationToken(claims, null, authorities);
             }else{
                 return  null;
             }

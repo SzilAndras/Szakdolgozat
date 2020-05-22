@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class AppointmentHttpService {
-  readonly url = 'http://localhost:8081/appointment';
+  readonly url = 'http://localhost:8080/appointment';
 
   constructor(private http: HttpClient) { }
 

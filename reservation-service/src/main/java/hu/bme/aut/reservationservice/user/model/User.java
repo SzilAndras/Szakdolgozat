@@ -2,6 +2,7 @@ package hu.bme.aut.reservationservice.user.model;
 
 import hu.bme.aut.reservationservice.user.model.enums.Role;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 
@@ -18,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
