@@ -22,9 +22,6 @@ public class News {
     private Long id;
 
     @Column
-    private Long authorId;
-
-    @Column
     private String authorName;
 
     @Column(columnDefinition = "TEXT")

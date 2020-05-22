@@ -11,8 +11,6 @@ public class NewsDto {
 
     private Long id;
 
-    private Long authorId;
-
     private String authorName;
 
     private String text;

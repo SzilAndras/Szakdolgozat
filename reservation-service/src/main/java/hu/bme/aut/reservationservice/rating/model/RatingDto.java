@@ -8,7 +8,6 @@ import java.util.Date;
 @Builder
 public class RatingDto {
     private Long id;
-    private Long authorId;
     private String authorName;
     private int score;
     private String comment;

@@ -13,14 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/appointment")
 public class AppointmentController {
-    long UserID = 1;
+
+    // TODO
 
     @Autowired
     AppointmentService appointmentService;
 
     @GetMapping
     public List<AppointmentDto> getAllByDate(@RequestParam("date") String date) {
-        System.out.println(date);
         return appointmentService.getAllByDate(date);
     }
 

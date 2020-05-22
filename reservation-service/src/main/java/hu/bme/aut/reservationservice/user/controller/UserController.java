@@ -38,11 +38,14 @@ public class UserController {
         return login;
     }
 
-
-
     @PostMapping("/save")
     public UserDto save(UserDto user) {
         return userService.save(user);
+    }
+
+    @GetMapping("/find")
+    public UserDto findUser(@RequestAttribute("user") String user) {
+        return userService.findUserByUsernameDto(user);
     }
 
     @PostMapping("/resetPass")

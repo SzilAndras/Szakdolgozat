@@ -10,7 +10,10 @@ import hu.bme.aut.reservationservice.reservation.model.enums.Status;
 import hu.bme.aut.reservationservice.reservation.model.Reservation;
 import hu.bme.aut.reservationservice.reservation.model.ReservationDto;
 import hu.bme.aut.reservationservice.reservation.repository.ReservationRepository;
-import hu.bme.aut.reservationservice.reservation.repository.specification.ReservationSpecificationsBuilder;
+import hu.bme.aut.reservationservice.shared.filter.SpecificationBuilder;
+import hu.bme.aut.reservationservice.user.model.User;
+import hu.bme.aut.reservationservice.user.model.enums.Role;
+import hu.bme.aut.reservationservice.shared.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,29 +22,42 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 @Service
 public class ReservationService {
 
-    Long userId = 1l; // TODO
 
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public ReservationDto save(ReservationDto reservation) {
+    @Autowired
+    private UserRepository userRepository;
+    private Long userId = 1L;
+
+    private User findUser(String name) {
+        return userRepository.findByUsername(name);
+    }
+
+    public ReservationDto save(ReservationDto reservation, String name, Role role) {
+
+        User user = findUser(name);
+
+        if (user == null) {
+            return null; // todo
+        }
+
         reservation.getAppointments().forEach(
                 appointmentDto -> appointmentDto.setStatus(AppointmentStatus.SUGGESTED)
         );
         if (reservation.getId() == null) {
-            reservation.setUserId(userId);
+            reservation.setUserId(user.getId());
             reservation.setAdminStatus(Status.PENDING);
             reservation.setUserStatus(Status.PENDING);
             return ReservationMapper.mapToReservationDto(reservationRepository.save(ReservationMapper.mapFromReservationDto(reservation)));
         } else {
             Optional<Reservation> resOpt = this.reservationRepository.findById(reservation.getId());
-            if (resOpt.isPresent()) { // and if admin
+            if (resOpt.isPresent() && role == Role.ADMIN) {
                 reservation.setAdminStatus(Status.ACCEPTED);
                 reservation.setUserStatus(Status.PENDING);
                 return ReservationMapper.mapToReservationDto(reservationRepository.save(ReservationMapper.mapFromReservationDto(reservation)));
@@ -50,21 +66,17 @@ public class ReservationService {
         return null; // TODO error
     }
 
-    public Slice<ReservationDto> getByFilter(String search, int page, int size) {
-        ReservationSpecificationsBuilder builder = new ReservationSpecificationsBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),", Pattern.UNICODE_CHARACTER_CLASS);
-        Matcher matcher = pattern.matcher(search + ",");
-        while (matcher.find()) {
-            if (matcher.group(1).contains("Status")) {
-                Status status = Status.valueOf(matcher.group(3).toUpperCase());
-                builder.with(matcher.group(1), matcher.group(2), status);
-            } else {
-                builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-            }
+    public Slice<ReservationDto> getByFilter(String search, int page, int size, String name, Role role) {
+        User user = findUser(name);
+
+        Specification<Reservation> spec;
+
+        if (user != null) {
+             spec = SpecificationBuilder.<Reservation>build(search, user.getId(), role);
+        } else {
+            spec = SpecificationBuilder.<Reservation>build(search, null, null);
+
         }
-
-        Specification<Reservation> spec = builder.build();
-
         Pageable pageable = PageRequest.of(page, size);
 
         return reservationRepository.findAll(spec, pageable).map(ReservationMapper::mapToReservationDto);
@@ -74,7 +86,7 @@ public class ReservationService {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
         if (resOpt.isPresent()) {
             Reservation reservation = resOpt.get();
-            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED && reservation.getUserId().equals(userId)) {
+            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED && reservation.getUserId().equals(userId)) { // TODO
                 reservation.setUserStatus(status);
                 if (reservation.getAdminStatus() == Status.ACCEPTED) {
                     reservation.getAppointments().stream().forEach(
@@ -91,7 +103,7 @@ public class ReservationService {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
         if (resOpt.isPresent()) {
             Reservation reservation = resOpt.get();
-            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED && reservation.getUserId().equals(userId)) {
+            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED && reservation.getUserId().equals(userId)) { // TODO
                 reservation.setUserStatus(Status.ACCEPTED);
                 if (reservation.getAdminStatus() == Status.ACCEPTED) {
                     reservation.getAppointments().forEach(
@@ -125,7 +137,7 @@ public class ReservationService {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
         if (resOpt.isPresent()) {
             Reservation reservation = resOpt.get();
-            if (reservation.getUserId().equals(userId) &&
+            if (reservation.getUserId().equals(userId) && // TODO
                     reservation.getAdminStatus() != Status.REJECTED &&
                     reservation.getUserStatus() != Status.REJECTED &&
                     (reservation.getAdminStatus() != Status.ACCEPTED &&
@@ -171,7 +183,7 @@ public class ReservationService {
             AppointmentDto handoverApp = reservationDto.getAppointments().stream().filter(
                     app -> app.getType() == AppointmentType.HANDOVER
             ).findFirst().orElse(null);
-            boolean isOwner = reservation.getUserId().equals(userId);
+            boolean isOwner = reservation.getUserId().equals(userId); // TODO
             boolean isAdmin = true; // TODO
             if (handoverApp != null) {
                 if (isOwner || isAdmin) {
