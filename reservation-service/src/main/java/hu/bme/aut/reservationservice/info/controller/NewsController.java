@@ -1,7 +1,7 @@
-package hu.bme.aut.infoservice.controller;
+package hu.bme.aut.reservationservice.info.controller;
 
-import hu.bme.aut.infoservice.model.NewsDto;
-import hu.bme.aut.infoservice.service.NewsService;
+import hu.bme.aut.reservationservice.info.model.NewsDto;
+import hu.bme.aut.reservationservice.info.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

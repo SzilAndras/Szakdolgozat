@@ -1,4 +1,4 @@
-package hu.bme.aut.infoservice.model;
+package hu.bme.aut.reservationservice.info.model;
 
 import lombok.Builder;
 import lombok.Data;

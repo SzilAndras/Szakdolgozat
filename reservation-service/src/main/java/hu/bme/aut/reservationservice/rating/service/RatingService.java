@@ -1,8 +1,8 @@
-package hu.bme.aut.ratingservice.service;
+package hu.bme.aut.reservationservice.rating.service;
 
-import hu.bme.aut.ratingservice.model.Rating;
-import hu.bme.aut.ratingservice.model.RatingDto;
-import hu.bme.aut.ratingservice.repository.RatingRepository;
+import hu.bme.aut.reservationservice.rating.model.Rating;
+import hu.bme.aut.reservationservice.rating.model.RatingDto;
+import hu.bme.aut.reservationservice.rating.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

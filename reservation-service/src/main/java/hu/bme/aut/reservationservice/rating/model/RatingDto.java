@@ -1,4 +1,4 @@
-package hu.bme.aut.ratingservice.model;
+package hu.bme.aut.reservationservice.rating.model;
 
 import lombok.Builder;
 import lombok.Data;

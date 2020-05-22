@@ -1,7 +1,7 @@
-package hu.bme.aut.ratingservice.controller;
+package hu.bme.aut.reservationservice.rating.controller;
 
-import hu.bme.aut.ratingservice.model.RatingDto;
-import hu.bme.aut.ratingservice.service.RatingService;
+import hu.bme.aut.reservationservice.rating.model.RatingDto;
+import hu.bme.aut.reservationservice.rating.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;

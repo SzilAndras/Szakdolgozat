@@ -1,6 +1,6 @@
-package hu.bme.aut.infoservice.repository;
+package hu.bme.aut.reservationservice.info.repository;
 
-import hu.bme.aut.infoservice.model.News;
+import hu.bme.aut.reservationservice.info.model.News;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

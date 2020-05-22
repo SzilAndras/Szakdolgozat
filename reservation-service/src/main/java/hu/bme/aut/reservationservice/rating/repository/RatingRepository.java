@@ -1,6 +1,6 @@
-package hu.bme.aut.ratingservice.repository;
+package hu.bme.aut.reservationservice.rating.repository;
 
-import hu.bme.aut.ratingservice.model.Rating;
+import hu.bme.aut.reservationservice.rating.model.Rating;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

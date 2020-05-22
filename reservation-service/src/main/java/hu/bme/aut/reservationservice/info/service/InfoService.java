@@ -1,8 +1,8 @@
-package hu.bme.aut.infoservice.service;
+package hu.bme.aut.reservationservice.info.service;
 
-import hu.bme.aut.infoservice.model.Info;
-import hu.bme.aut.infoservice.model.InfoDto;
-import hu.bme.aut.infoservice.repository.InfoRepository;
+import hu.bme.aut.reservationservice.info.model.Info;
+import hu.bme.aut.reservationservice.info.model.InfoDto;
+import hu.bme.aut.reservationservice.info.repository.InfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,21 +1,19 @@
-package hu.bme.aut.infoservice.model;
-
+package hu.bme.aut.reservationservice.rating.model;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "news")
+@Table(name="ratings")
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Setter(value = AccessLevel.PACKAGE)
 @Getter
-public class News {
+public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,17 +25,12 @@ public class News {
     @Column
     private String authorName;
 
-    @Column(columnDefinition = "TEXT")
-    private String text;
+    @Column
+    private int score;
 
-    @Column(columnDefinition = "TEXT")
-    private String tags;
+    @Column
+    private String comment;
 
     @CreatedDate
     private Date createdDate;
-
-    @LastModifiedDate
-    private Date lastModifiedDate;
-
-
 }
