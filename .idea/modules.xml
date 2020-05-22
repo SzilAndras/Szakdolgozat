@@ -3,9 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Szakdolgozat.iml" filepath="$PROJECT_DIR$/.idea/Szakdolgozat.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gateway-service/gateway-service.iml" filepath="$PROJECT_DIR$/gateway-service/gateway-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/info-service/info-service.iml" filepath="$PROJECT_DIR$/info-service/info-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rating-service/rating-service.iml" filepath="$PROJECT_DIR$/rating-service/rating-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/reservation-service/reservation-service.iml" filepath="$PROJECT_DIR$/reservation-service/reservation-service.iml" />
     </modules>
   </component>

@@ -2,7 +2,6 @@ package hu.bme.aut.reservationservice.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.bme.aut.reservationservice.user.model.LoginDto;
-import hu.bme.aut.reservationservice.user.model.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -24,19 +25,16 @@ import java.io.IOException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
-import static hu.bme.aut.reservationservice.security.SecurityConstants.EXPIRATION_TIME;
-import static hu.bme.aut.reservationservice.security.SecurityConstants.KEY;
+import static hu.bme.aut.reservationservice.security.SecurityConstants.*;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public AuthenticationFilter(AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -48,8 +46,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(applicationUser.getUsername(),
-                            applicationUser.getPassword(), new ArrayList<>())
+                    new UsernamePasswordAuthenticationToken(
+                            applicationUser.getUsername(),
+                            applicationUser.getPassword(),
+                            new ArrayList<>())
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -60,14 +60,24 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        System.out.println(auth);
         Date exp = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
         Key key = Keys.hmacShaKeyFor(KEY.getBytes());
-        Claims claims = Jwts.claims().setSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
-        String token = Jwts.builder().setClaims(claims).signWith(key, SignatureAlgorithm.HS512).setExpiration(exp).compact();
+        //Claims claims = Jwts.claims().setSubject(((org.springframework.security.core.userdetails.User) auth
+        // .getPrincipal()).getUsername());
+        Optional<String> role =
+                ((User)auth.getPrincipal()).getAuthorities().stream().map(
+                        GrantedAuthority::getAuthority).findFirst();
+        String userName = ((org.springframework.security.core.userdetails.User)auth.getPrincipal()).getUsername();
+        String token = Jwts.builder()
+                .setSubject(userName)
+                .claim(AUTHORITIES_KEY, role.orElse(null))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(exp)
+                .compact();
         res.addHeader("token", token);
-        System.out.println(token);
-
+        res.addHeader("Access-Control-Expose-Headers", "*");
 
     }
+
 }

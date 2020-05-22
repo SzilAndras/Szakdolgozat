@@ -9,6 +9,8 @@ import {UserReservationsComponent} from './reservation/user-reservations/user-re
 import {AdminReservationComponent} from './reservation/admin-reservation/admin-reservation.component';
 import {AdminReservationActualComponent} from './reservation/admin-reservation/admin-reservation-actual/admin-reservation-actual.component';
 import {AdminReservationEditComponent} from './reservation/admin-reservation/admin-reservation-edit/admin-reservation-edit.component';
+import {LoginComponent} from "./login/login/login.component";
+import {RegistrationComponent} from "./login/registration/registration.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -25,8 +27,9 @@ const routes: Routes = [
       {path: '', component: AdminReservationActualComponent},
       {path: 'actual', component: AdminReservationActualComponent},
       {path: 'edit', component: AdminReservationEditComponent},
-    ]
-  }
+    ]},
+  {path: 'login', component: LoginComponent},
+  {path: 'registration', component: RegistrationComponent}
 ];
 
 @NgModule({

@@ -23,7 +23,7 @@ export class AdminReservationEditComponent implements OnInit {
 
 
 
-  user: UserInterface = {id: 1, email: 'asd@asd.asd', fullName: 'Gipsz Jakab', phoneNumber: '06309483882'};
+  user: UserInterface = {id: 1, email: 'asd@asd.asd', fullName: 'Gipsz Jakab', username: 'asd_user', phone: '06309483882'};
 
   reservation: ReservationInterface;
 
