@@ -28,6 +28,13 @@ public class UserController {
         }};
     }
 
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping("/role")
+    public String role( @RequestAttribute("role") String role) {
+        return role;
+    }
+
+
     @PostMapping("/registration")
     public UserDto registration(@RequestBody()RegistrationDto registration) {
         return userService.registration(registration);

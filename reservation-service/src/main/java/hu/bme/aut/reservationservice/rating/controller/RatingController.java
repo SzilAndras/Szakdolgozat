@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rating")
+@RequestMapping("home/rating")
 public class RatingController {
 
     @Autowired
@@ -21,7 +21,7 @@ public class RatingController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @PutMapping
+    @PostMapping
     public void save(RatingDto rating, @RequestAttribute("user") String user) {
         ratingService.createRating(rating, user);
     }

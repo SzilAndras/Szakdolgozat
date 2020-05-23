@@ -1,9 +1,9 @@
 <div *ngIf="rating !== undefined" class="panel panel-default">
   <div class="panel-heading">
     {{rating.authorName}}
-    <small class="pull-right">5/{{rating.points}}</small>
+    <small class="pull-right">5/{{rating.score}}</small>
   </div>
   <div class="panel-body">
-    {{rating.description}}
+    {{rating.comment}}
   </div>
 </div>

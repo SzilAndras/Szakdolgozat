@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {RatingInterface} from "../../shared/model/interfaces/rating.interface";
-import {RatingHttpService} from "../../shared/service/http/rating-http.service";
 import {CreateRatingComponent} from "./create-rating/create-rating.component";
+import {HomeHttpService} from "../../shared/service/http/home-http.service";
 
 @Component({
   selector: 'app-rating',
@@ -15,7 +15,7 @@ export class RatingComponent implements OnInit {
   page: number;
   showRatingMOdal: boolean = false;
 
-  constructor(private ratingHttpService: RatingHttpService){}
+  constructor(private ratingHttpService: HomeHttpService){}
 
   ngOnInit() {
     this.page = 0;
@@ -35,7 +35,11 @@ export class RatingComponent implements OnInit {
   }
 
   refreshRatings() {
-    this.ratings = this.ratingHttpService.getRatings();
+    this.ratingHttpService.getRatings().subscribe(
+      ratings => {
+        this.ratings = ratings;
+      }
+    );
     // todo
   }
 
