@@ -22,7 +22,7 @@ public class RatingController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
-    public void save(RatingDto rating, @RequestAttribute("user") String user) {
+    public void save(@RequestBody RatingDto rating, @RequestAttribute("user") String user) {
         ratingService.createRating(rating, user);
     }
 

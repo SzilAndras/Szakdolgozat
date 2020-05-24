@@ -1,6 +1,6 @@
-<div *ngIf="isSelectable">
-  <button type="button" class="btn btn-primary btn-block" (click)="openNew()">Új info</button>
-  <app-info-item *ngIf="!!new"
+<div *ngIf="isSelectable" >
+  <button class="btn btn-primary btn-block" (click)="openNew()">Új info</button>
+  <app-info-item  class="border" style="padding: 1em;" *ngIf="!!new"
                  [info]="newInfo"
                  [types]="types"
                  [editable]="true"
@@ -11,57 +11,66 @@
 </div>
 
 
-<div>
-  <h6>Cím</h6>
-  <div *ngFor="let info of getByType(ADDRESS)">
-    <app-info-item [info]="info"
-                   [types]="types"
-                   [selectable]="isSelectable"
-                   [editable]="isSelectable && selectedId === info.id"
-                   (save)="onSave($event)"
-                   (selected)="onInfoSelect($event)"
-                   (remove)="onRemove($event)"
+<div class="mt-1">
+  <div  class="mt-1 border" style="padding: 1em;">
+    <h6>Cím</h6>
+    <div *ngFor="let info of getByType(ADDRESS)">
+      <app-info-item [info]="info"
+                     [types]="types"
+                     [selectable]="isSelectable"
+                     [editable]="isSelectable && selectedId === info.id"
+                     (save)="onSave($event)"
+                     (selected)="onInfoSelect($event)"
+                     (remove)="onRemove($event)"
 
-    >
-    </app-info-item>
-  </div>
-
-  <h6>Elérhetőségek</h6>
-  <div *ngFor="let info of getByType(EMAIL)">
-    <app-info-item [info]="info"
-                   [types]="types"
-                   [selectable]="isSelectable"
-                   [editable]="isSelectable && selectedId === info.id"
-                   (save)="onSave($event)"
-                   (selected)="onInfoSelect($event)"
-                   (remove)="onRemove($event)"
-    >
-    </app-info-item>
-  </div>
-  <div *ngFor="let info of getByType(PHONE)">
-    <app-info-item [info]="info"
-                   [types]="types"
-                   [selectable]="isSelectable"
-                   [editable]="isSelectable && selectedId === info.id"
-                   (save)="onSave($event)"
-                   (selected)="onInfoSelect($event)"
-                   (remove)="onRemove($event)"
-    >
-    </app-info-item>
+      >
+      </app-info-item>
+    </div>
   </div>
 
-  <h6>Egyéb</h6>
-  <div *ngFor="let info of getByType(OTHER)">
-    <app-info-item [info]="info"
-                   [types]="types"
-                   [selectable]="isSelectable"
-                   [editable]="selectedId === info.id"
-                   (save)="onSave($event)"
-                   (selected)="onInfoSelect($event)"
-                   (remove)="onRemove($event)"
-    >
-    </app-info-item>
+  <div class="mt-1 border" style="padding: 1em;">
+    <h6>Elérhetőségek</h6>
+    <div *ngFor="let info of getByType(EMAIL)">
+      <app-info-item [info]="info"
+                     [types]="types"
+                     [selectable]="isSelectable"
+                     [editable]="isSelectable && selectedId === info.id"
+                     (save)="onSave($event)"
+                     (selected)="onInfoSelect($event)"
+                     (remove)="onRemove($event)"
+      >
+      </app-info-item>
+    </div>
+    <div *ngFor="let info of getByType(PHONE)">
+      <app-info-item [info]="info"
+                     [types]="types"
+                     [selectable]="isSelectable"
+                     [editable]="isSelectable && selectedId === info.id"
+                     (save)="onSave($event)"
+                     (selected)="onInfoSelect($event)"
+                     (remove)="onRemove($event)"
+      >
+      </app-info-item>
+    </div>
+
   </div>
+
+  <div class="mt-1 border" style="padding: 1em;">
+    <h6>Egyéb</h6>
+    <div *ngFor="let info of getByType(OTHER)">
+      <app-info-item [info]="info"
+                     [types]="types"
+                     [selectable]="isSelectable"
+                     [editable]="selectedId === info.id"
+                     (save)="onSave($event)"
+                     (selected)="onInfoSelect($event)"
+                     (remove)="onRemove($event)"
+      >
+      </app-info-item>
+    </div>
+  </div>
+
+
 </div>
 
 

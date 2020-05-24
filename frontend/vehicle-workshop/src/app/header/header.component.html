@@ -4,23 +4,23 @@
       <li class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/home']">Főoldal</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li *ngIf="isLogin && !isAdmin" class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/reservation']">Foglalás</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li *ngIf="isLogin && !isAdmin" class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/my-reservations']">Foglalásaim</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li *ngIf="isLogin && isAdmin" class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/view-reservations']">Foglalások kezelése</a>
       </li>
     </ul>
   </div>
 
-  <div class="nav navbar-btn navbar-right">
-    <button class="btn btn-default btn-primary" type="button" routerLink="/login">Bejelentkezés</button>
+  <div *ngIf="!isLogin" class="nav navbar-btn navbar-right">
+    <button class="btn btn-default btn-primary mr-2" type="button" routerLink="/login">Bejelentkezés</button>
     <button class="btn btn-default btn-primary" type="button" routerLink="/registration">Regisztáció</button>
   </div>
-  <div class="nav navbar-btn navbar-right">
+  <div *ngIf="isLogin" class="nav navbar-btn navbar-right">
     <button class="btn btn-default btn-primary" type="button" (click)="onLogout()" routerLink="/home">Kijelentkez
       és</button>
   </div>

@@ -6,6 +6,7 @@ import hu.bme.aut.reservationservice.info.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,16 +24,20 @@ public class NewsService {
                 .lastModifiedDate(news.getLastModifiedDate())
                 .tags(news.getTags())
                 .text(news.getText())
+                .title(news.getTitle())
                 .build()
         ).collect(Collectors.toList());
     }
 
     public NewsDto saveNews(NewsDto news, String author) {
-        News newNews = newsRepository.save(
-                News.builder()
+        News newNews = newsRepository.save(News.builder()
+                .id(news.getId())
+                .createdDate(news.getId() == null ? new Date() : null)
+                .lastModifiedDate(new Date())
                 .tags(news.getTags())
                 .authorName(author)
                 .text(news.getText())
+                .title(news.getTitle())
                 .build()
         );
         return NewsDto.builder()
@@ -45,8 +50,8 @@ public class NewsService {
                 .build();
     }
 
-    public void deleteNews(NewsDto news) {
-        newsRepository.deleteById(news.getId());
+    public void deleteNews(Long id) {
+        newsRepository.deleteById(id);
     }
 
 

@@ -15,6 +15,8 @@ public class NewsDto {
 
     private String text;
 
+    private String title;
+
     private String tags;
 
     private Date createdDate;

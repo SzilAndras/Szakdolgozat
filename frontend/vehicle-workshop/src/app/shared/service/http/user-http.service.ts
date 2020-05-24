@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {LoginInterface} from "../../model/interfaces/login.interface";
 import {Observable} from "rxjs";
 import {RegistrationInterface} from "../../model/interfaces/registration.interface";
@@ -25,7 +25,7 @@ export class UserHttpService {
   }
 
   getRole(): Observable<UserRoleEnum> {
-    return this.http.get<UserRoleEnum>(this.url + '/user/role', {responseType: 'text'});
+    return this.http.get<UserRoleEnum>(this.url + '/user/role', { responseType: 'text' as 'json'});
   }
 
 }

@@ -17,6 +17,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'reservation', component: NewReservationComponent,
     children: [
+      {path: '', component: VehicleConfigurationComponent},
       {path: 'vehicle-conf', component: VehicleConfigurationComponent},
       {path: 'appointment-select', component: AppointmentSelectComponent},
       {path: 'overview', component: OverviewComponent},

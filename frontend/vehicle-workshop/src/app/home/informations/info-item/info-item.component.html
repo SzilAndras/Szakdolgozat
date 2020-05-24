@@ -1,5 +1,5 @@
 <div *ngIf="editable">
-  <form [formGroup]="form" (ngSubmit)="onSave()"  (click)="onSelect()">
+  <form style="cursor: pointer" [formGroup]="form" (ngSubmit)="onSave()" (click)="onSelect()">
     <div class="form-group">
       <label for="type">Típus</label>
       <select id="type" formControlName="type" class="form-control">
@@ -39,9 +39,9 @@
 
 <form  *ngIf="!editable" (click)="onSelect()">
   <div class="form-group">
-    <label for="staticEmail" class="col-form-label">{{info.label}}</label>
+    <label for="value-f" class="col-form-label">{{info.label}}</label>
     <div>
-      <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="info.value">
+      <input type="text" readonly class="form-control-plaintext" id="value-f" [value]="info.value">
     </div>
   </div>
 </form>

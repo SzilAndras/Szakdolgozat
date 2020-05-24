@@ -28,7 +28,7 @@ public class NewsController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete")
-    public void deleteNews(@RequestBody NewsDto news) {
-        newsService.deleteNews(news);
+    public void deleteNews(@RequestParam("id") Long id) {
+        newsService.deleteNews(id);
     }
 }

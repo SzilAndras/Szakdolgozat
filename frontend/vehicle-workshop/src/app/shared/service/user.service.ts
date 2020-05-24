@@ -3,7 +3,7 @@ import {UserInterface} from "../model/interfaces/user.interface";
 import {UserHttpService} from "./http/user-http.service";
 import {LoginInterface} from "../model/interfaces/login.interface";
 import {RegistrationInterface} from "../model/interfaces/registration.interface";
-import {Observable, ReplaySubject} from "rxjs";
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {UserRoleEnum} from "../model/enums/user-role.enum";
 import { of } from "rxjs";
 
@@ -14,18 +14,20 @@ export class UserService {
 
   user: UserInterface;
 
-  asd = of(UserRoleEnum.GUEST);
+  role = of(UserRoleEnum.GUEST);
+
+  loggedIn = new BehaviorSubject(false)
 
 
 
   constructor(private http: UserHttpService) {
-
   }
 
   login(login: LoginInterface){
     this.http.login(login).subscribe((response) => {
       if (response) {
         this.saveToken(response.headers.get('token'));
+        this.loggedIn.next(true);
       }
     });
   }
@@ -39,12 +41,14 @@ export class UserService {
     if (this.getToken() !== null) {
       return this.http.getRole();
     } else {
-      return this.asd;
+      return this.role;
     }
   }
 
   logout() {
     localStorage.removeItem("token");
+    this.loggedIn.next(false);
+
   }
 
   saveToken(token: string) {
@@ -54,6 +58,10 @@ export class UserService {
 
   getToken() {
     return localStorage.getItem("token");
+  }
+
+  isLoggedIn() {
+    return !!this.getToken();
   }
 
 }

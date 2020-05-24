@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {InfoInterface} from "../../model/interfaces/info.interface";
 import {Observable} from "rxjs";
 import {RatingInterface} from "../../model/interfaces/rating.interface";
+import {NewsInterface} from "../../model/interfaces/news.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -26,16 +27,24 @@ export class HomeHttpService {
     return this.http.delete<void>(this.url + 'info/delete?id=' + id); // todo
   }
 
-  public getNews(): Observable<[InfoInterface]> { // TODO
-    return this.http.get<[InfoInterface]>(this.url + "news");
-  }
-
   getRatings(): Observable<RatingInterface[]> {
     return this.http.get<RatingInterface[]>(this.url + "rating");
   }
 
   saveRating(rating: RatingInterface) {
     return this.http.post<RatingInterface[]>(this.url + "rating", rating);
+  }
+
+  public getNews(): Observable<NewsInterface[]> { // TODO
+    return this.http.get<NewsInterface[]>(this.url + "news");
+  }
+
+  public saveNews(news: NewsInterface): Observable<[NewsInterface]> { // TODO
+    return this.http.post<[NewsInterface]>(this.url + "news/save", news);
+  }
+
+  public removeNews(id: number): Observable<void> {
+    return this.http.delete<void>(this.url + 'news/delete?id=' + id); // todo
   }
 
 }

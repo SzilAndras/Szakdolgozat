@@ -8,15 +8,18 @@ import { RatingItemComponent } from './rating/rating-item/rating-item.component'
 import { CreateRatingComponent } from './rating/create-rating/create-rating.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { InfoItemComponent } from './informations/info-item/info-item.component';
+import { NewsItemComponent } from './news/news-item/news-item.component';
+import {SharedModule} from "../shared/shared.module";
 
 
 
 @NgModule({
-  declarations: [HomeComponent, RatingComponent, InformationsComponent, NewsComponent, RatingItemComponent, CreateRatingComponent, InfoItemComponent],
+  declarations: [HomeComponent, RatingComponent, InformationsComponent, NewsComponent, RatingItemComponent, CreateRatingComponent, InfoItemComponent, NewsItemComponent],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [HomeComponent]
 })

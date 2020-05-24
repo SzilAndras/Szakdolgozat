@@ -1,9 +1,9 @@
 
-  <button type="button" class="btn btn-success btn-block" (click)="openCreateRating()">Értékelés</button>
+  <button *ngIf="isUser" type="button" class="btn btn-success btn-block" (click)="openCreateRating()">Értékelés</button>
   <hr>
   <!-- todo paging-->
 
-<div *ngIf="ratings !== undefined">
+<div *ngIf="ratings !== undefined" class="mt-1">
   <app-rating-item *ngFor="let rating of ratings" [rating]="rating"></app-rating-item>
 </div>
   <app-create-rating #newrating (saveRating)="saveRating($event)"></app-create-rating>
