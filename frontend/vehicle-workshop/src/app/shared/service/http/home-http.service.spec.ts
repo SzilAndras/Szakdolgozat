@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RatingHttpService } from './rating-http.service';
+import { HomeHttpService } from './home-http.service';
 
-describe('RatingHttpService', () => {
-  let service: RatingHttpService;
+describe('HomeHttpService', () => {
+  let service: HomeHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RatingHttpService);
+    service = TestBed.inject(HomeHttpService);
   });
 
   it('should be created', () => {

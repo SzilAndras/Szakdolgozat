@@ -1,7 +1,10 @@
 package hu.bme.aut.reservationservice.rating.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 @Data
@@ -9,7 +12,7 @@ import java.util.Date;
 public class RatingDto {
     private Long id;
     private String authorName;
-    private int score;
+    private Integer score;
     private String comment;
     private Date createdDate;
 

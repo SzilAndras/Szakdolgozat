@@ -11,7 +11,7 @@ import {PageableInterface} from '../../model/interfaces/pageable.interface';
 })
 export class ReservationHttpService {
 
-  readonly url = 'http://localhost:8080/reservation';
+  readonly url = '/api/reservation';
   readonly userId = 1;
 
   constructor(private http: HttpClient) {

@@ -1,0 +1,47 @@
+<div *ngIf="editable">
+  <form style="cursor: pointer" [formGroup]="form" (ngSubmit)="onSave()" (click)="onSelect()">
+    <div class="form-group">
+      <label for="type">Típus</label>
+      <select id="type" formControlName="type" class="form-control">
+        <option  *ngFor="let type of types" [value]="type.type">{{type.label}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="label">Cím</label>
+      <input
+        class="form-control"
+        formControlName="label"
+        id="label"
+        placeholder="cím ...">
+    </div>
+
+    <div class="form-group">
+      <label for="value">Érték</label>
+      <input
+        class="form-control"
+        formControlName="value"
+        id="value"
+        placeholder="érték ...">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary mb-2 btn-block">Mentés</button>
+    </div>
+
+  </form>
+  <button class="btn btn-secondary mb-2 btn-block" (click)="onCancel()">Mégse</button>
+
+  <button class="btn btn-danger mb-2 btn-block" (click)="onRemove()" [disabled]="!info || !info.id">Törlés</button>
+
+
+</div>
+
+
+
+<form  *ngIf="!editable" (click)="onSelect()">
+  <div class="form-group">
+    <label for="value-f" class="col-form-label">{{info.label}}</label>
+    <div>
+      <input type="text" readonly class="form-control-plaintext" id="value-f" [value]="info.value">
+    </div>
+  </div>
+</form>

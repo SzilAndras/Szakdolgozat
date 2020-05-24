@@ -24,6 +24,9 @@ public class News {
     @Column
     private String authorName;
 
+    @Column
+    private String title;
+
     @Column(columnDefinition = "TEXT")
     private String text;
 

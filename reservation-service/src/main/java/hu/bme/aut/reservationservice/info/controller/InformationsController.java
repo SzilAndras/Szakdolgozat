@@ -28,8 +28,8 @@ public class InformationsController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete")
-    public void deleteInfo(@RequestBody InfoDto info) {
-        infoService.deleteInfo(info.getId());
+    public void deleteInfo(@RequestParam("id") Long id) {
+        infoService.deleteInfo(id);
     }
 
 }

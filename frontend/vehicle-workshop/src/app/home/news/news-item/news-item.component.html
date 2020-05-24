@@ -1,0 +1,42 @@
+<div *ngIf="editable">
+  <form [formGroup]="form" (ngSubmit)="onSave()"  (click)="onSelect()">
+
+    <div class="form-group">
+      <label for="title">Cím</label>
+      <input
+        class="form-control"
+        formControlName="title"
+        id="title"
+        placeholder="title ...">
+    </div>
+
+    <div class="form-group">
+      <label for="text">Szöveg</label>
+      <textarea
+        class="form-control"
+        formControlName="text"
+        id="text"
+        placeholder="szöveg ..."></textarea>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary mb-2 btn-block">Mentés</button>
+    </div>
+
+  </form>
+  <button  class="btn btn-secondary mb-2 btn-block" (click)="onCancel()">Mégse</button>
+
+  <button *ngIf="news.id" class="btn btn-danger mb-2 btn-block" (click)="onRemove()">Törlés</button>
+
+
+</div>
+
+
+
+<div  *ngIf="!editable" (click)="onSelect()">
+  <div class="form-group">
+    <h4>{{news.title}}</h4>
+    <div>
+      <p class="text-justify">{{news.text}}</p>
+    </div>
+  </div>
+</div>
