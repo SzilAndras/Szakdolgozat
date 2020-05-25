@@ -29,7 +29,7 @@ export class UserHttpService {
   }
 
   getUser():Observable<UserInterface> {
-    return this.http.get<UserInterface>(this.url + '/user');
+    return this.http.get<UserInterface>(this.url + '/user/find');
   }
 
   saveUser(user: UserInterface):Observable<UserInterface> {

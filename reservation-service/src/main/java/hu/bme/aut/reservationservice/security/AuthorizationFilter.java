@@ -59,7 +59,6 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                                 .collect(Collectors.toList());
                 request.setAttribute("user", claims.getSubject());
                 request.setAttribute("role", claims.get("Authorities"));
-                System.out.println("authenticate");
 
                 return new UsernamePasswordAuthenticationToken(claims, null, authorities);
             }else{

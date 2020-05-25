@@ -1,0 +1,72 @@
+<form *ngIf="form" [formGroup]="form" class="mt-3" style="padding: 2em"  (ngSubmit)="onSave()">
+  <div class="form-group">
+    <label for="email">Mail</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-control"
+      formControlName="email"
+      required>
+  </div>
+  <div class="form-group">
+    <label for="fullName">Teljes név</label>
+    <input
+      type="text"
+      id="fullName"
+      name="fullName"
+      class="form-control"
+      formControlName="fullName"
+      required>
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Telefonszám</label>
+    <input
+      type="text"
+      id="phoneNumber"
+      name="phoneNumber"
+      class="form-control"
+      formControlName="phone"
+      required>
+  </div>
+  <button class="btn btn-primary" type="submit" >Mentés</button>
+</form>
+<form *ngIf="passForm" class="mt-3" style="padding: 2em"  [formGroup]="passForm" (ngSubmit)="onPasswordChanged()">
+  <div class="form-group">
+    <label for="oldPass">Régi jelszó</label>
+    <input
+      type="password"
+      id="oldPass"
+      name="oldPass"
+      class="form-control"
+      formControlName="oldPass"
+      required>
+  </div>
+  <div class="form-group">
+    <label for="pass0">Új jelszó</label>
+    <input
+      type="password"
+      id="pass0"
+      name="pass0"
+      class="form-control"
+      formControlName="pass0"
+      required
+      minlength="6">
+  </div>
+  <div class="form-group">
+    <label for="pass1">Új jelszó újra</label>
+    <input
+      type="password"
+      id="pass1"
+      name="pass1"
+      class="form-control"
+      formControlName="pass1"
+      required
+      minlength="6">
+  </div>
+  <button class="btn btn-primary" type="submit" >Mentés</button>
+
+
+</form>
+
