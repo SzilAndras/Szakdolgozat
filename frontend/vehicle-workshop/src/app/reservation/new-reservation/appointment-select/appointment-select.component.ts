@@ -15,13 +15,13 @@ export class AppointmentSelectComponent implements OnInit {
   faCalendar = faCalendarAlt;
   appointments: AppointmentInterface[] = [];
   dateAppointments: AppointmentInterface[] = [];
-  model: NgbDateStruct;
+  model: NgbDate;
 
   constructor(private saveReservationService: ReservationService,
               private router: Router,
               private calendar: NgbCalendar,
               private appointmetHttp: AppointmentHttpService) {
-    this.model = calendar.getToday();
+    this.model = this.calendar.getNext(this.calendar.getToday(), 'd', 1);
   }
 
   ngOnInit(): void {
@@ -35,12 +35,12 @@ export class AppointmentSelectComponent implements OnInit {
     console.log(this.model);
   }
 
-  get maxDate(): NgbDate {
-    return this.calendar.getNext(this.calendar.getToday(), 'w' as NgbPeriod, 2);
+  get maxDateTime(): {date: NgbDate, time: string} {
+    return {date: this.calendar.getNext(this.calendar.getToday(), 'd', 14), time: '8:00'};
   }
 
-  getToday(): NgbDate {
-    return  this.calendar.getToday();
+  get todayDateTime(): {date: NgbDate, time: string} {
+    return {date: this.calendar.getToday(), time: '15:00'} ;
   }
 
 
@@ -63,8 +63,11 @@ export class AppointmentSelectComponent implements OnInit {
     );
   }
 
-  onDateChanged() {
+  onDateChanged(date) {
+    this.model = date;
     this.getDateAppointments();
+
+
   }
 
 

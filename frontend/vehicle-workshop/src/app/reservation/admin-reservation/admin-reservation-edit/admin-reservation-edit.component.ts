@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ReservationInterface} from '../../../shared/model/interfaces/reservation.interface';
 import {ReservationService} from '../../../shared/service/reservation.service';
 import {Router} from '@angular/router';
@@ -18,12 +18,13 @@ import {TimeByIndex} from '../../../shared/time-table/model/time-by-index.enum';
 })
 export class AdminReservationEditComponent implements OnInit {
   faCalendar = faCalendarAlt;
-  dateAppointmentsHandover: AppointmentInterface[] = [];
+  dateAppointmentsHandoverAll: AppointmentInterface[] = [];
   dateAppointmentsWorks: AppointmentInterface[] = [];
 
 
 
   user: UserInterface = {id: 1, email: 'asd@asd.asd', fullName: 'Gipsz Jakab', username: 'asd_user', phone: '06309483882'};
+  // TODO TODO TODO
 
   reservation: ReservationInterface;
 
@@ -31,7 +32,13 @@ export class AdminReservationEditComponent implements OnInit {
 
   workDate: NgbDate;
   handoverDate: NgbDate;
-  lastWorkDateTime: {date: NgbDate, time: string};
+
+  //lastWorkDateTime: {date: NgbDate, time: string};
+
+  baseHandover: AppointmentInterface;
+  selectHandover = false;
+
+
 
 
 
@@ -39,8 +46,8 @@ export class AdminReservationEditComponent implements OnInit {
               private router: Router,
               private calendar: NgbCalendar,
               private appointmetHttp: AppointmentHttpService) {
-    this.workDate =  calendar.getToday();
-    this.handoverDate =  calendar.getToday();
+    this.workDate =  this.calendar.getNext(this.calendar.getToday(), 'd', 1);
+    this.handoverDate =  this.calendar.getNext(this.calendar.getToday(), 'd', 1);
   }
 
   ngOnInit(): void {
@@ -49,6 +56,9 @@ export class AdminReservationEditComponent implements OnInit {
     this.getDateAppointments(false);
 
     for (const app of this.reservation.appointments) {
+      if (app.type === AppointmentType.HANDOVER) {
+        this.baseHandover = app;
+      }
       this.appointments.push(app);
     }
   }
@@ -59,16 +69,35 @@ export class AdminReservationEditComponent implements OnInit {
       (model.day < 10 ? '0' +  model.day :  model.day);
   }
 
+  get dateAppointmentsHandover() {
+    if (this.baseHandover) {
+      return this.dateAppointmentsHandoverAll.filter(app => app.id !== this.baseHandover.id);
+    }
+    return [];
+  }
+
   get maxDateTime(): {date: NgbDate, time: string} {
     return {date: this.calendar.getNext(this.calendar.getToday(), 'd', 14), time: '8:00'};
   }
 
   get todayDateTime(): {date: NgbDate, time: string} {
-    return {date: this.calendar.getToday(), time: '8:00'} ;
+    return {date: this.calendar.getToday(), time: '15:00'} ;
   }
 
+  get tomorrowDateTime():{date: NgbDate, time: string} {
+  return {date: this.calendar.getNext(this.calendar.getToday(), 'd', 1), time: '8:00'} ;
+}
+
   get handoverDateTime(): {date: NgbDate, time: string} {
-    return this.handoverAppointment ? {date: this.handoverDate, time: this.handoverAppointment.time} : undefined;
+    if (this.handoverAppointment) {
+      const handover = this.handoverAppointment;
+      const date = handover.date.split('-');
+      const handoverDate =  new NgbDate(+date[0], +date[1], +date[2]);
+      return {date: handoverDate, time: this.handoverAppointment.time};
+    } else {
+      return undefined;
+    }
+
   }
 
   get takeoverDateTime(): {date: NgbDate, time: string} {
@@ -78,7 +107,10 @@ export class AdminReservationEditComponent implements OnInit {
     return {date: takeoverDate, time: takeover.time};
   }
 
-  setLastWorkDateTime() {
+  get lastWorkDateTime (): {date: NgbDate, time: string} {
+    if (!this.workAppointments.length) {
+      return undefined;
+    }
     let lastWorkDateTime = this.todayDateTime;
     for (const work of this.workAppointments) {
       const date = work.date.split('-');
@@ -88,9 +120,8 @@ export class AdminReservationEditComponent implements OnInit {
         lastWorkDateTime = {date: workDate, time: work.time};
       }
     }
-    this.lastWorkDateTime = lastWorkDateTime;
+    return  lastWorkDateTime;
   }
-
 
   get workAppointments() {
     return this.appointments.filter(app => app.type === AppointmentType.WORK) || [];
@@ -111,7 +142,7 @@ export class AdminReservationEditComponent implements OnInit {
 
   getDateAppointments(isHandover: boolean) {
     this.appointmetHttp.getAppointmentsByDate(this.date(isHandover ? this.handoverDate : this.workDate)).subscribe(
-      appo => isHandover ? this.dateAppointmentsHandover = appo : this.dateAppointmentsWorks = appo
+      appo => isHandover ? this.dateAppointmentsHandoverAll = appo : this.dateAppointmentsWorks = appo
     );
   }
 
@@ -124,14 +155,23 @@ export class AdminReservationEditComponent implements OnInit {
 
     this.appointmetHttp.getAppointmentsByDate(this.date(isHandover ? this.handoverDate : this.workDate)).subscribe(
       appo => {
-        isHandover ? this.dateAppointmentsHandover = appo : this.dateAppointmentsWorks = appo;
+        isHandover ? this.dateAppointmentsHandoverAll = appo : this.dateAppointmentsWorks = appo;
       }
     );
   }
 
   onAppointmentSelected(appointments: AppointmentInterface[]) {
     this.appointments = appointments;
-    this.setLastWorkDateTime();
+    this.servcie.refreshAppointments(appointments);
+    if (this.baseHandover) {
+      if (this.handoverAppointment.date !== this.baseHandover.date ||
+      this.handoverAppointment.time !== this.baseHandover.time) {
+        this.selectHandover = true;
+      } else {
+        this.selectHandover = false;
+      }
+
+    }
   }
 
   onUpdate() {
@@ -139,20 +179,38 @@ export class AdminReservationEditComponent implements OnInit {
   }
 
   onSave() {
-    this.servcie.sendReservation().subscribe(
-      res => {
-        console.log(res);
+    if (this.reservation.userStatus === Status.ACCEPTED) {
+      if (this.selectHandover) {
+        this.onSuggest();
+      } else {
+        this.onAccept();
       }
-    );
-    this.router.navigate(['view-reservations/actual']);
+    } else {
+      this.servcie.sendReservation().subscribe(
+        res => {
+          if (res) {
+            this.router.navigate(['view-reservations/actual']);
+          }
+          console.log(res);
+        }
+      );
+    }
   }
 
   onReject() {
+    this.servcie.reject();
+  }
 
+  onAccept() {
+    this.servcie.accept();
+  }
+
+  onSuggest() {
+    this.servcie.suggest();
   }
 
   onBack() {
-
+    this.router.navigate(['view-reservations/actual']);
   }
 
   valuesSum(): {timeSum: number, priceSum: number} {

@@ -15,7 +15,7 @@ public class ReservationDto {
 
     private Long userId;
 
-    private VehicleType vehicleType;
+    private String vehicleType;
 
     private String plateNumber;
 

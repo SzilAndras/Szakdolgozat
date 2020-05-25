@@ -200,7 +200,7 @@
         [mode] = "'HANDOVER'"
         [date]="handoverDate"
         [maxDate]="maxDateTime"
-        [minDate]=" lastWorkDateTime"
+        [minDate]=" lastWorkDateTime || maxDateTime"
         [selectedAppointments]="appointments"
         [dateAppointments]="dateAppointmentsHandover"
         (selected)="onAppointmentSelected($event)"
@@ -245,8 +245,12 @@
 
   <div class="btn-group pull-right">
     <button class="btn btn-default" (click)="onBack()">Vissza</button>
-    <button [disabled]="reservation.adminStatus === 'ACCEPTED'" class="btn btn-danger" (click)="onReject()">Elutasítás</button>
-    <button [disabled]="reservation.adminStatus === 'ACCEPTED'" class="btn btn-primary" (click)="onSave()">Elfogadás</button>
+    <button [disabled]="reservation.adminStatus === 'ACCEPTED'"
+            class="btn btn-danger"
+            (click)="onReject()">Elutasítás</button>
+    <button [disabled]="reservation.adminStatus === 'ACCEPTED'"
+            class="btn btn-primary"
+            (click)="onSave()">Elfogadás</button>
   </div>
 
 

@@ -33,7 +33,6 @@ public class ReservationService {
 
     @Autowired
     private UserRepository userRepository;
-    private Long userId = 1L;
 
     private User findUser(String name) {
         return userRepository.findByUsername(name);
@@ -82,28 +81,61 @@ public class ReservationService {
         return reservationRepository.findAll(spec, pageable).map(ReservationMapper::mapToReservationDto);
     }
 
-    public ReservationDto selectByUser(Long id, Status status) {
-        Optional<Reservation> resOpt = this.reservationRepository.findById(id);
-        if (resOpt.isPresent()) {
+    public ReservationDto suggest(ReservationDto reservationDto, String userName, Role role) {
+        Optional<Reservation> resOpt = this.reservationRepository.findById(reservationDto.getId());
+
+        User user = this.userRepository.findByUsername(userName);
+
+        if (resOpt.isPresent() && user != null) {
             Reservation reservation = resOpt.get();
-            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED && reservation.getUserId().equals(userId)) { // TODO
-                reservation.setUserStatus(status);
-                if (reservation.getAdminStatus() == Status.ACCEPTED) {
-                    reservation.getAppointments().stream().forEach(
-                            appointment -> appointment.setStatus(AppointmentStatus.ACCEPTED)
-                    );
+            AppointmentDto handoverApp = reservationDto.getAppointments().stream().filter(
+                    app -> app.getType() == AppointmentType.HANDOVER
+            ).findFirst().orElse(null);
+            boolean isOwner = reservation.getUserId().equals(user.getId());
+            boolean isAdmin = role.equals(Role.ADMIN);
+            if (handoverApp != null) {
+                if (isOwner || isAdmin) {
+                    if (isOwner) {
+                        reservation.setAdminStatus(Status.PENDING);
+                        reservation.setUserStatus(Status.ACCEPTED);
+                    } else {
+                        reservation.setAdminStatus(Status.ACCEPTED);
+                        reservation.setUserStatus(Status.PENDING);
+                    }
+                    Appointment currentHandoverApp = reservation.getAppointments().stream().filter(
+                            app -> app.getType() == AppointmentType.HANDOVER
+                    ).findFirst().orElse(null);
+                    if (currentHandoverApp != null && currentHandoverApp.getStatus() == AppointmentStatus.SUGGESTED) {
+                        currentHandoverApp.setDate(handoverApp.getDate());
+                        currentHandoverApp.setTime(handoverApp.getTime());
+                    } else {
+                        // TODO
+                        handoverApp.setStatus(AppointmentStatus.SUGGESTED);
+                        reservation.getAppointments().add(AppointmentMapper.mapFromDto(handoverApp));
+                    }
+                    return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
                 }
-                return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
             }
         }
-        return null; // TODO return error
+        return null; // error some data not exist
     }
 
-    public ReservationDto userAccept(Long id) {
+    public ReservationDto accept(String userName, Role role, Long resId) {
+        return role.equals(Role.ADMIN) ? adminAccept(resId) : userAccept(userName, resId);
+    }
+
+    public ReservationDto reject(String userName, Role role, Long resId) {
+        return role.equals(Role.ADMIN) ? adminReject(resId) : userReject(userName, resId);
+    }
+
+    private ReservationDto userAccept(String userName, Long id) {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
-        if (resOpt.isPresent()) {
+        User user = this.userRepository.findByUsername(userName);
+        if (resOpt.isPresent() && user != null) {
             Reservation reservation = resOpt.get();
-            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED && reservation.getUserId().equals(userId)) { // TODO
+            if (reservation.getAdminStatus() != Status.REJECTED &&
+                    reservation.getUserStatus() != Status.REJECTED &&
+                    reservation.getUserId().equals(user.getId())) {
                 reservation.setUserStatus(Status.ACCEPTED);
                 if (reservation.getAdminStatus() == Status.ACCEPTED) {
                     reservation.getAppointments().forEach(
@@ -116,11 +148,12 @@ public class ReservationService {
         return null; // TODO return error
     }
 
-    public ReservationDto adminAccept(Long id) {
+    private ReservationDto adminAccept(Long id) {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
         if (resOpt.isPresent()) {
             Reservation reservation = resOpt.get();
-            if (reservation.getAdminStatus() != Status.REJECTED && reservation.getUserStatus() != Status.REJECTED) {
+            if (reservation.getAdminStatus() != Status.REJECTED &&
+                    reservation.getUserStatus() != Status.REJECTED) {
                 reservation.setAdminStatus(Status.ACCEPTED);
                 if (reservation.getUserStatus() == Status.ACCEPTED) {
                     reservation.getAppointments().forEach(
@@ -133,15 +166,17 @@ public class ReservationService {
         return null; // TODO return error
     }
 
-    public ReservationDto userReject(Long id) {
+    private ReservationDto userReject(String userName, Long id) {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
-        if (resOpt.isPresent()) {
+        User user = this.userRepository.findByUsername(userName);
+
+        if (resOpt.isPresent() && user != null) {
             Reservation reservation = resOpt.get();
-            if (reservation.getUserId().equals(userId) && // TODO
+            if (reservation.getUserId().equals(user.getId()) &&
                     reservation.getAdminStatus() != Status.REJECTED &&
                     reservation.getUserStatus() != Status.REJECTED &&
-                    (reservation.getAdminStatus() != Status.ACCEPTED &&
-                            reservation.getUserStatus() != Status.ACCEPTED)) {
+                    !(reservation.getAdminStatus() == Status.ACCEPTED &&
+                            reservation.getUserStatus() == Status.ACCEPTED)) {
                 reservation.setUserStatus(Status.REJECTED);
                 reservation.getAppointments().forEach(
                         appointment -> appointment.setStatus(AppointmentStatus.REJECTED)
@@ -155,7 +190,7 @@ public class ReservationService {
         return null; // TODO return error
     }
 
-    public ReservationDto adminReject(Long id) {
+    private ReservationDto adminReject(Long id) {
         Optional<Reservation> resOpt = this.reservationRepository.findById(id);
         if (resOpt.isPresent()) {
             Reservation reservation = resOpt.get();
@@ -174,42 +209,6 @@ public class ReservationService {
             }
         }
         return null; // TODO return error
-    }
-
-    public ReservationDto suggest(ReservationDto reservationDto) {
-        Optional<Reservation> resOpt = this.reservationRepository.findById(reservationDto.getId());
-        if (resOpt.isPresent()) {
-            Reservation reservation = resOpt.get();
-            AppointmentDto handoverApp = reservationDto.getAppointments().stream().filter(
-                    app -> app.getType() == AppointmentType.HANDOVER
-            ).findFirst().orElse(null);
-            boolean isOwner = reservation.getUserId().equals(userId); // TODO
-            boolean isAdmin = true; // TODO
-            if (handoverApp != null) {
-                if (isOwner || isAdmin) {
-                    if (isOwner) {
-                        reservation.setAdminStatus(Status.PENDING);
-                        reservation.setUserStatus(Status.ACCEPTED);
-                    } else {
-                        reservation.setAdminStatus(Status.ACCEPTED);
-                        reservation.setUserStatus(Status.PENDING);
-                    }
-
-                    Appointment currentHandoverApp = reservation.getAppointments().stream().filter(
-                            app -> app.getType() == AppointmentType.HANDOVER
-                    ).findFirst().orElse(null);
-                    if (currentHandoverApp != null && currentHandoverApp.getStatus() == AppointmentStatus.SUGGESTED) {
-                        currentHandoverApp.setDate(handoverApp.getDate());
-                        currentHandoverApp.setTime(handoverApp.getTime());
-                    } else {
-                        handoverApp.setStatus(AppointmentStatus.SUGGESTED);
-                        reservation.getAppointments().add(AppointmentMapper.mapFromDto(handoverApp));
-                    }
-                    return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
-                }
-            }
-        }
-        return null; // error some data not exist
     }
 
 }

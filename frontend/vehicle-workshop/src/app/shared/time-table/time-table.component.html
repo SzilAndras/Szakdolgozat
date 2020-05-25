@@ -1,4 +1,4 @@
-<div *ngIf="timeTable !== undefined && reservationAppointments !== undefined" class="table-responsive">
+<div *ngIf="!!timeTable" class="table-responsive">
   <table class="table">
     <tr class="table table-bordered tab">
       <th *ngFor="let c of timeTable; let i = index" class="text-center"> {{c.time}}</th>
@@ -11,10 +11,10 @@
         <td *ngIf="cell.isSelectable && cell.status === CHOSEN"
             class="text-center chosen"
             (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
-        <td *ngIf="!cell.isSelectable && cell.status === CHOSEN"
-            class="text-center chosen-not-allowed"
+        <td *ngIf="!cell.isSelectable && cell.status === SELECTED"
+            class="text-center selected"
             (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
-        <td *ngIf="!cell.isSelectable && cell.status !== CHOSEN"
+        <td *ngIf="!cell.isSelectable && cell.status !== SELECTED"
             class="text-center reserved"
             (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
       </ng-container>

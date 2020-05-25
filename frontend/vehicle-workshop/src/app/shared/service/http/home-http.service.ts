@@ -24,7 +24,7 @@ export class HomeHttpService {
   }
 
   public removeInfo(id: number): Observable<void> {
-    return this.http.delete<void>(this.url + 'info/delete?id=' + id); // todo
+    return this.http.delete<void>(this.url + 'info/delete?id=' + id);
   }
 
   getRatings(): Observable<RatingInterface[]> {
@@ -39,12 +39,12 @@ export class HomeHttpService {
     return this.http.get<NewsInterface[]>(this.url + "news");
   }
 
-  public saveNews(news: NewsInterface): Observable<[NewsInterface]> { // TODO
+  public saveNews(news: NewsInterface): Observable<[NewsInterface]> {
     return this.http.post<[NewsInterface]>(this.url + "news/save", news);
   }
 
   public removeNews(id: number): Observable<void> {
-    return this.http.delete<void>(this.url + 'news/delete?id=' + id); // todo
+    return this.http.delete<void>(this.url + 'news/delete?id=' + id);
   }
 
 }

@@ -3,17 +3,46 @@ import {ReservationInterface} from "../model/interfaces/reservation.interface";
 import {Status} from "../model/enums/status.enum";
 import {AppointmentInterface} from "../model/interfaces/appointment.interface";
 import {ReservationHttpService} from "./http/reservation-http.service";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
   private reservation: ReservationInterface;
-  private result = new Observable();
+
+  result: BehaviorSubject<boolean> = new BehaviorSubject(false); // todo
 
   constructor(private http: ReservationHttpService) {
     this.resetReservation();
+  }
+
+  reject() {
+    if (this.reservation.id) {
+      this.http.reject(this.reservation.id).subscribe(
+        res => {
+          console.log(res);
+        }
+      )
+    }
+  }
+
+  accept() {
+    if (this.reservation.id) {
+      this.http.accept(this.reservation.id).subscribe(
+        res => {
+          console.log(res);
+        }
+      )
+    }
+  }
+
+  suggest() {
+    this.http.suggest(this.reservation).subscribe(
+      res => {
+        console.log(res);
+      }
+    )
   }
 
   public refreshVehicleConfig(config: {type?: string, vin?: string, plateNumber?: string, works?: [{id?: number, work?: string}]}) {
@@ -27,7 +56,6 @@ export class ReservationService {
       price: undefined,
       status: Status.PENDING
     }));
-    console.log(this.reservation);
   }
 
   public refreshAppointments(appointments: AppointmentInterface[]) {
@@ -59,13 +87,10 @@ export class ReservationService {
 
   sendReservation(): Observable<ReservationInterface> {
     const resObs = this.http.save(this.reservation);
-    resObs.subscribe(
-      res => {
-      }
-    )
     this.resetReservation();
 
     // TODO
     return resObs;
   }
+
 }

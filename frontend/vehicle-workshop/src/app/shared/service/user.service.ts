@@ -3,9 +3,9 @@ import {UserInterface} from "../model/interfaces/user.interface";
 import {UserHttpService} from "./http/user-http.service";
 import {LoginInterface} from "../model/interfaces/login.interface";
 import {RegistrationInterface} from "../model/interfaces/registration.interface";
-import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
-import {UserRoleEnum} from "../model/enums/user-role.enum";
+import {BehaviorSubject, Observable} from "rxjs";
 import { of } from "rxjs";
+import {UserRoleEnum} from "../model/enums/user-role.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,13 @@ export class UserService {
 
 
   constructor(private http: UserHttpService) {
+    this.getRole().subscribe(
+      role => {
+        if (role !== UserRoleEnum.GUEST) {
+          this.loggedIn.next(true);
+        }
+      }
+    );
   }
 
   login(login: LoginInterface){

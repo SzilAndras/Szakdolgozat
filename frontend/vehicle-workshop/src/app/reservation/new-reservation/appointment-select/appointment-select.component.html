@@ -3,7 +3,8 @@
   <div class="form-group">
     <div class="input-group">
       <input class="form-control" placeholder="év-hónap-nap"
-             name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onDateChanged()">
+             name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onDateChanged($event)"
+               >
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
       </div>
@@ -12,8 +13,8 @@
 </form>
 
 <app-time-table [date]="model"
-                [minDate]="{date: getToday(), time: 0}"
-                [maxDate]="{date: maxDate, time: 0}"
+                [minDate]="todayDateTime"
+                [maxDate]="maxDateTime"
                 (selected)="appointmentsSelected($event)"
                 [selectedAppointments]="appointments"
                 [mode]="'TAKEOVER'"

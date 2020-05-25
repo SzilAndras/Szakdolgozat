@@ -24,10 +24,10 @@ public class Reservation {
     private Long id;
 
     @Column(nullable = false)
-    private Long userId; // TODO manytoone??
+    private Long userId;
 
-    @Enumerated(EnumType.STRING)
-    private VehicleType vehicleType;
+    /*@Enumerated(EnumType.STRING)*/ //todo
+    private String vehicleType;
 
     private String plateNumber;
 

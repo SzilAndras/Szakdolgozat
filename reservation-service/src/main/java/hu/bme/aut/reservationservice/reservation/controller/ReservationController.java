@@ -38,7 +38,25 @@ public class ReservationController {
     }
 
     @PostMapping(path = "/accept")
-    public ReservationDto acceptByUser(@RequestParam("id") Long id) {
-        return null;
+    public ReservationDto accept(@RequestParam("id") Long id, @RequestAttribute("user") String user,
+                                 @RequestAttribute("role") Role role) {
+        return reservationService.accept(user, role, id);
     }
+
+    @PostMapping(path = "/reject")
+    public ReservationDto reject(@RequestParam("id") Long id, @RequestAttribute("user") String user,
+                                 @RequestAttribute("role") Role role) {
+        return reservationService.reject(user, role, id);
+    }
+
+    @PostMapping(path = "/suggest")
+    public ReservationDto suggest(@RequestBody ReservationDto reservation,
+                               @RequestAttribute("user") String user,
+                               @RequestAttribute("role") Role role) {
+
+        return reservationService.suggest(reservation, user, role);
+    }
+
+
+
 }
