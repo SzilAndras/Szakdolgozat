@@ -28,4 +28,16 @@ export class UserHttpService {
     return this.http.get<UserRoleEnum>(this.url + '/user/role', { responseType: 'text' as 'json'});
   }
 
+  getUser():Observable<UserInterface> {
+    return this.http.get<UserInterface>(this.url + '/user/find');
+  }
+
+  saveUser(user: UserInterface):Observable<UserInterface> {
+    return this.http.post<UserInterface>(this.url + '/user/save', user);
+  }
+
+  changePass(pass: {oldPass: string, pass0: string, pass1: string}) {
+    return this.http.post(this.url + '/user/pass', pass);
+  }
+
 }

@@ -4,5 +4,6 @@ public enum AppointmentStatus {
     SELECTED,
     SUGGESTED,
     ACCEPTED,
-    REJECTED
+    REJECTED,
+    CHOSEN
 }

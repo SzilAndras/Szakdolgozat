@@ -13,6 +13,9 @@
       <li *ngIf="isLogin && isAdmin" class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" [routerLink]="['/view-reservations']">Foglalások kezelése</a>
       </li>
+      <li *ngIf="isLogin" class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/profile']">Profil</a>
+      </li>
     </ul>
   </div>
 
@@ -21,7 +24,6 @@
     <button class="btn btn-default btn-primary" type="button" routerLink="/registration">Regisztáció</button>
   </div>
   <div *ngIf="isLogin" class="nav navbar-btn navbar-right">
-    <button class="btn btn-default btn-primary" type="button" (click)="onLogout()" routerLink="/home">Kijelentkez
-      és</button>
+    <button class="btn btn-default btn-primary" type="button" (click)="onLogout()" routerLink="/home">Kijelentkezés</button>
   </div>
 </nav>

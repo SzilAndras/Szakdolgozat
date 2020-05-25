@@ -1,6 +1,7 @@
 package hu.bme.aut.reservationservice.user.controller;
 
 import hu.bme.aut.reservationservice.user.model.LoginDto;
+import hu.bme.aut.reservationservice.user.model.NewPassDto;
 import hu.bme.aut.reservationservice.user.model.RegistrationDto;
 import hu.bme.aut.reservationservice.user.model.UserDto;
 import hu.bme.aut.reservationservice.user.service.UserService;
@@ -45,15 +46,26 @@ public class UserController {
         return login;
     }
 
-    @PostMapping("/save")
+/*    @PostMapping("/save")
     public UserDto save(UserDto user) {
         return userService.save(user);
-    }
+    }*/
 
     @GetMapping("/find")
     public UserDto findUser(@RequestAttribute("user") String user) {
         return userService.findUserByUsernameDto(user);
     }
+
+    @PostMapping("/save")
+    public UserDto saveUser(@RequestBody() UserDto userDto, @RequestAttribute("user") String userName) {
+        return userService.save(userDto, userName);
+    }
+
+    @PostMapping("pass")
+    public UserDto newPass(@RequestBody() NewPassDto newPass, @RequestAttribute("user") String userName) {
+        return userService.newPass(newPass, userName);
+    }
+
 
     @PostMapping("/resetPass")
     public String resetPass() {

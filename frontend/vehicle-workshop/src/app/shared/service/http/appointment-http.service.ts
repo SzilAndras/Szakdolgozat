@@ -13,33 +13,6 @@ export class AppointmentHttpService {
 
   getAppointmentsByDate(date: string): Observable<AppointmentInterface[]> {
     return this.http.get<AppointmentInterface[]>(this.url + '?date=' + date);
-   /* return [
-      {id: 1,
-          date: '2020-05-10',
-          time: '8:00',
-          status: AppointmentStatus.ACCEPTED,
-          type: AppointmentType.WORK
-        },
-      {id: 2,
-        date: '2020-05-10',
-        time: '14:00',
-        status: AppointmentStatus.ACCEPTED,
-        type: AppointmentType.WORK
-      },
-      {id: 3,
-        date: '2020-05-11',
-        time: '8:00',
-        status: AppointmentStatus.ACCEPTED,
-        type: AppointmentType.WORK
-      },
-      {id: 4,
-        date: '2020-05-11',
-        time: '14:00',
-        status: AppointmentStatus.ACCEPTED,
-        type: AppointmentType.WORK
-      },
-    ];*/
-    // TODO
     }
 
 

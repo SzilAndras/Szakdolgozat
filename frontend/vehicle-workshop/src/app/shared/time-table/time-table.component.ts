@@ -8,14 +8,17 @@ import {TimeTableMode} from './model/time-table-mode.enum';
 import {AppointmentStatus} from '../model/enums/appointmentStatus.enum';
 import {AppointmentType} from '../model/enums/appointmentType.enum';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import {max} from "rxjs/operators";
 
 @Component({
   selector: 'app-time-table',
   templateUrl: './time-table.component.html',
   styleUrls: ['./time-table.component.scss']
 })
-export class TimeTableComponent implements OnInit, DoCheck {
+export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
   readonly CHOSEN = CellStatus.CHOSEN;
+  readonly SELECTED = CellStatus.SELECTED;
+
 
   oldWorksLength = 0;
   oldHandover = '';
@@ -32,9 +35,6 @@ export class TimeTableComponent implements OnInit, DoCheck {
 
   @Output() selected = new EventEmitter<AppointmentInterface[]>();
 
-
-  reservationAppointments: AppointmentInterface[] = [];
-
   timeTable: TimeCellInterface[];
 
   constructor() {
@@ -44,6 +44,15 @@ export class TimeTableComponent implements OnInit, DoCheck {
   ngOnInit() {
     this.refreshTimeTable();
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.hasOwnProperty('dateAppointments') || changes.hasOwnProperty('selectedAppointments')) {
+      console.log(this.dateAppointments);
+      this.refreshTimeTable();
+      console.log(this.dateAppointments);
+
+    }
   }
 
   ngDoCheck(): void {
@@ -58,6 +67,8 @@ export class TimeTableComponent implements OnInit, DoCheck {
       this.oldDate = this.date;
       this.oldMaxDate = this.maxDate?.date;
       this.oldMinDate = this.minDate?.date;
+      console.log(this.dateAppointments);
+
       this.refreshTimeTable();
     }
   }
@@ -125,10 +136,12 @@ export class TimeTableComponent implements OnInit, DoCheck {
     if (!this.date || !this.minDate || !this.maxDate) {
       return false;
     }
-    const dateIsEqual = (this.minDate.date.equals(this.date) && +TimeByIndex[this.minDate.time] < idx) ||
-      (this.maxDate.date.equals(this.date) &&  +TimeByIndex[this.maxDate.time] > idx);
-    const minIsOk = this.minDate.date.before(this.date);
-    const maxIsOk = this.maxDate.date.after(this.date);
+
+    const dateIsEqual = (this.minDate.date.equals(this.date) &&
+      this.maxDate.date.equals(this.date) &&
+      +TimeByIndex[this.minDate.time] < idx &&  +TimeByIndex[this.maxDate.time] > idx);
+    const minIsOk = this.minDate.date.before(this.date) || (this.minDate.date.equals(this.date) && +TimeByIndex[this.minDate.time] < idx );
+    const maxIsOk = this.maxDate.date.after(this.date) || (this.maxDate.date.equals(this.date) && +TimeByIndex[this.maxDate.time] > idx);
     return (dateIsEqual || (minIsOk && maxIsOk));
   }
 
@@ -151,7 +164,7 @@ export class TimeTableComponent implements OnInit, DoCheck {
           date: this.getDay(),
           time: cell.time,
           status: AppointmentStatus.CHOSEN,
-          type: AppointmentType[this.mode.toString()]
+          type: AppointmentType[this.mode.toString()],
         });
     } else {
       this.selectedAppointments.splice(containedIdx, 1);
@@ -168,11 +181,11 @@ export class TimeTableComponent implements OnInit, DoCheck {
     const cell = this.timeTable[idx];
     if (cell.isCurrent) {
       return (cell.type === CellType.WORK ? 'Munka' :
-        cell.type === CellType.TAKEOVER && (cell.status === CellStatus.SELECTED || cell.status === CellStatus.RESERVED) ? 'Átvétel' :
+        cell.type === CellType.TAKEOVER ? 'Átvétel' :
           cell.type === CellType.HANDOVER ? 'Átadás' :
             'Szabad');
     } else {
-      return (!cell.isDateOk ? 'Nem' : cell.isSelectable ? 'Szabad' : 'Foglalt');
+      return (!cell.isDateOk ? 'NF' : cell.isSelectable ? 'Szabad' : 'Foglalt');
     }
   }
 

@@ -12,7 +12,6 @@ import {PageableInterface} from '../../model/interfaces/pageable.interface';
 export class ReservationHttpService {
 
   readonly url = '/api/reservation';
-  readonly userId = 1;
 
   constructor(private http: HttpClient) {
   }
@@ -21,10 +20,6 @@ export class ReservationHttpService {
     return this.http.post<ReservationInterface>(this.url + '/save', reservation);
   }
 
-
-  getALlReservation(): Observable<ReservationInterface[]> {
-    return this.http.get<ReservationInterface[]>(this.url);
-  }
 
   getReservationsFiltered(filter: ReservationFilterInterface, page: number, size?: number): Observable<PageableInterface<ReservationInterface>> {
     let search = '';
@@ -42,7 +37,16 @@ export class ReservationHttpService {
 
   }
 
-  revertReservation(reservation: ReservationInterface) {
-    // TODO
+  accept(id: number) {
+    return this.http.post<ReservationInterface>(this.url + '/accept?id=' + id, null);
   }
+
+  reject(id: number) {
+    return this.http.post<ReservationInterface>(this.url + '/reject?id=' + id, null);
+  }
+
+  suggest(res: ReservationInterface) {
+    return this.http.post<ReservationInterface>(this.url + '/suggest', res);
+  }
+
 }

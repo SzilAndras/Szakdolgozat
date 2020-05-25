@@ -1,5 +1,5 @@
 
-<div *ngIf="reservation !== undefined">
+<div *ngIf="reservation">
   <h3>Részletek ({{reservation.plateNumber}})</h3>
   <h4 >{{reservationStatus}}</h4>
   <div>
@@ -43,8 +43,13 @@
         <form class="form-inline">
           <div class="form-group">
             <div class="input-group">
-              <input class="form-control" placeholder="év-hónap-nap"
-                     name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+              <input class="form-control"
+                     placeholder="év-hónap-nap"
+                     name="dp"
+                     [(ngModel)]="model"
+                     (dateSelect)="onDateChanged($event)"
+                     ngbDatepicker
+                     #d="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
               </div>
@@ -55,7 +60,10 @@
       <app-time-table
         *ngIf="model !== undefined"
         [date]="model"
+        [maxDate]="maxDateTime"
+        [minDate]="minDateTime"
         [selectedAppointments]="reservation.appointments"
+        [dateAppointments]="dateAppointments"
         [mode]="'HANDOVER'"
         (selected)="onHandoverSelected($event)"></app-time-table>
       <div class="btn-group pull-right">

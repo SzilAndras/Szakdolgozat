@@ -3,9 +3,10 @@ import {UserInterface} from "../model/interfaces/user.interface";
 import {UserHttpService} from "./http/user-http.service";
 import {LoginInterface} from "../model/interfaces/login.interface";
 import {RegistrationInterface} from "../model/interfaces/registration.interface";
-import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
-import {UserRoleEnum} from "../model/enums/user-role.enum";
+import {BehaviorSubject, Observable} from "rxjs";
 import { of } from "rxjs";
+import {UserRoleEnum} from "../model/enums/user-role.enum";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,21 @@ export class UserService {
 
 
 
-  constructor(private http: UserHttpService) {
+  constructor(private http: UserHttpService, private router: Router) {
+    this.getRole().subscribe(
+      role => {
+        if (role !== UserRoleEnum.GUEST) {
+          this.loggedIn.next(true);
+        }
+      }
+    );
   }
 
   login(login: LoginInterface){
     this.http.login(login).subscribe((response) => {
       if (response) {
         this.saveToken(response.headers.get('token'));
+        this.router.navigate(['home']);
         this.loggedIn.next(true);
       }
     });
@@ -34,6 +43,8 @@ export class UserService {
 
   registration(reg: RegistrationInterface) {
     localStorage.removeItem("token");
+    this.router.navigate(['login']);
+
     return this.http.registration(reg);
   }
 
@@ -47,6 +58,7 @@ export class UserService {
 
   logout() {
     localStorage.removeItem("token");
+    this.router.navigate(['home']);
     this.loggedIn.next(false);
 
   }
@@ -62,6 +74,18 @@ export class UserService {
 
   isLoggedIn() {
     return !!this.getToken();
+  }
+
+  getUser() {
+    return this.http.getUser();
+  }
+
+  saveUser(user: UserInterface) {
+    return this.http.saveUser(user);
+  }
+
+  changePass(pass: {oldPass: string, pass0: string, pass1: string}) {
+    return this.http.changePass(pass);
   }
 
 }

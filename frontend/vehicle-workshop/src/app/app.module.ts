@@ -11,6 +11,7 @@ import {RouterModule} from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginModule} from "./login/login.module";
+import {ProfileModule} from "./profile/profile.module";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {LoginModule} from "./login/login.module";
     RouterModule,
     FontAwesomeModule,
     HttpClientModule,
-    LoginModule
+    LoginModule,
+    ProfileModule
   ],
   providers: [],
   bootstrap: [AppComponent]
