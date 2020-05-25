@@ -13,7 +13,14 @@ export class AppointmentHttpService {
 
   getAppointmentsByDate(date: string): Observable<AppointmentInterface[]> {
     return this.http.get<AppointmentInterface[]>(this.url + '?date=' + date);
-    }
+    };
 
+  getClosedAppointmentsByDate(date: string): Observable<AppointmentInterface[]> {
+    return this.http.get<AppointmentInterface[]>(this.url + '/closed' + '?date=' + date);
+  };
+
+  saveClosedAppointments(appos: AppointmentInterface[]) {
+    return this.http.post<any>(this.url + '/closed', appos);
+  }
 
 }

@@ -10,16 +10,22 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { InfoItemComponent } from './informations/info-item/info-item.component';
 import { NewsItemComponent } from './news/news-item/news-item.component';
 import {SharedModule} from "../shared/shared.module";
+import { OpeningHoursComponent } from './opening-hours/opening-hours.component';
+import {NgbCollapseModule, NgbDatepickerModule} from "@ng-bootstrap/ng-bootstrap";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 
 @NgModule({
-  declarations: [HomeComponent, RatingComponent, InformationsComponent, NewsComponent, RatingItemComponent, CreateRatingComponent, InfoItemComponent, NewsItemComponent],
+  declarations: [HomeComponent, RatingComponent, InformationsComponent, NewsComponent, RatingItemComponent, CreateRatingComponent, InfoItemComponent, NewsItemComponent, OpeningHoursComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgbDatepickerModule,
+    FontAwesomeModule,
+    NgbCollapseModule
   ],
   exports: [HomeComponent]
 })

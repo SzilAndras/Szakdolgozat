@@ -15,5 +15,7 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Long>
 
     List<Appointment> findAllByDateAndStatusNot(Date date, AppointmentStatus status);
 
+    List<Appointment> findAllByDateAndType(Date date, AppointmentStatus status);
+
     List<Appointment> findAllByDateAndType(Date date, AppointmentType type);
 }

@@ -1,7 +1,6 @@
 package hu.bme.aut.reservationservice.reservation.model;
 
 import hu.bme.aut.reservationservice.reservation.model.enums.Status;
-import hu.bme.aut.reservationservice.reservation.model.enums.VehicleType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -26,7 +25,6 @@ public class Reservation {
     @Column(nullable = false)
     private Long userId;
 
-    /*@Enumerated(EnumType.STRING)*/ //todo
     private String vehicleType;
 
     private String plateNumber;

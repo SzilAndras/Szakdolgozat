@@ -66,8 +66,6 @@ export class AppointmentSelectComponent implements OnInit {
   onDateChanged(date) {
     this.model = date;
     this.getDateAppointments();
-
-
   }
 
 
