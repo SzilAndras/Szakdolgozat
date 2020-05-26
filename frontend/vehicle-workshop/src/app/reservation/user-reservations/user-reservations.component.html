@@ -7,6 +7,6 @@
     <app-reservation-list [reservations]="reservations" (reservationSelected)="onSelect($event)"></app-reservation-list>
   </div>
   <div class="col-md-7">
-    <app-reservation-details [reservation]="selected"></app-reservation-details>
+    <app-reservation-details [reservation]="selected" (action)="refreshReservations()"></app-reservation-details>
   </div>
 </div>

@@ -38,40 +38,47 @@
     </div>
 
 
-    <div *ngIf="selectHandover">
-      <div class="datepicker-container" >
-        <form class="form-inline">
-          <div class="form-group">
-            <div class="input-group">
-              <input class="form-control"
-                     placeholder="év-hónap-nap"
-                     name="dp"
-                     [(ngModel)]="model"
-                     (dateSelect)="onDateChanged($event)"
-                     ngbDatepicker
-                     #d="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
+    <div>
+      <button type="button" class="btn btn-primary btn-block" (click)="selectHandoverCollapsed =
+        !selectHandoverCollapsed"
+              [attr.aria-expanded]="!selectHandoverCollapsed" aria-controls="collapseHandover">
+        {{selectHandoverCollapsed ? 'Szerkesztés' : 'Becsukás' }}
+      </button>
+
+      <div class="p-1 border" id="collapseHandover" [ngbCollapse]="selectHandoverCollapsed">
+        <div class="datepicker-container  mt-3 mb-2" >
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control"
+                       placeholder="év-hónap-nap"
+                       name="dp"
+                       [(ngModel)]="model"
+                       (dateSelect)="onDateChanged($event)"
+                       ngbDatepicker
+                       #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <fa-icon [icon]="faCalendar"></fa-icon></button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-      <app-time-table
-        *ngIf="model !== undefined"
-        [date]="model"
-        [maxDate]="maxDateTime"
-        [minDate]="minDateTime"
-        [selectedAppointments]="reservation.appointments"
-        [dateAppointments]="dateAppointments"
-        [mode]="'HANDOVER'"
-        (selected)="onHandoverSelected($event)"></app-time-table>
-      <div class="btn-group pull-right">
-        <button class="btn btn-default" (click)="onCancelHandoverSelect()">Mégse</button>
-        <button class="btn btn-primary" (click)="selectHandover = false">Elrejt</button>
+          </form>
+        </div>
+
+        <app-time-table
+          *ngIf="model !== undefined"
+          [date]="model"
+          [maxDate]="maxDateTime"
+          [minDate]="minDateTime"
+          [selectedAppointments]="reservation.appointments"
+          [dateAppointments]="dateAppointments"
+          [mode]="'HANDOVER'"
+          (selected)="onHandoverSelected($event)"></app-time-table>
+        <div class="btn-group">
+          <button class="btn btn-secondary" (click)="onCancelHandoverSelect()">Visszavon</button>
+        </div>
       </div>
     </div>
-    <button *ngIf="!selectHandover" class="btn btn-primary" (click)="selectHandover = true">Új választása</button>
   </div>
 
   <div>
@@ -118,8 +125,10 @@
 
   <br>
 
-  <div class="btn-group pull-right">
+  <div *ngIf="!isRejected() && !(isAcceptedByUser() && isAcceptedByAdmin())" class="btn-group">
     <button [disabled]="!(!isRejected() && !(isAcceptedByUser() && isAcceptedByAdmin()))" class="btn btn-danger" (click)="onReject()">Elutasítás</button>
-    <button [disabled]="!(!isRejected() && (!isAcceptedByUser() && isAcceptedByAdmin()))" class="btn btn-primary" (click)="onAccept()">Elfogadás</button>
+    <button [disabled]="!(!isRejected() && (!isAcceptedByUser() && isAcceptedByAdmin()))" class="btn btn-primary"
+            (click)="onAccept()">
+      Elfogadás</button>
   </div>
 </div>

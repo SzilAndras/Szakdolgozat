@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ReservationFilterInterface} from "../../shared/model/interfaces/reservation-filter.interface";
 import {ReservationInterface} from "../../shared/model/interfaces/reservation.interface";
 import {ReservationHttpService} from "../../shared/service/http/reservation-http.service";
-import {PageableInterface} from "../../shared/model/interfaces/pageable.interface";
 
 @Component({
   selector: 'app-user-reservations',
@@ -32,7 +31,6 @@ export class UserReservationsComponent implements OnInit {
       pageable => {
         this.reservations = pageable.content;
         this.page = {last: pageable.last, first: pageable.first, number: pageable.number, totalPages: pageable.totalPages};
-        console.log(pageable);
       }
     );
   }

@@ -32,6 +32,11 @@ export class UserHttpService {
     return this.http.get<UserInterface>(this.url + '/user/find');
   }
 
+  getUserById(id: number):Observable<UserInterface> {
+    return this.http.get<UserInterface>(this.url + '/user/findById?id=' + id);
+  }
+
+
   saveUser(user: UserInterface):Observable<UserInterface> {
     return this.http.post<UserInterface>(this.url + '/user/save', user);
   }
