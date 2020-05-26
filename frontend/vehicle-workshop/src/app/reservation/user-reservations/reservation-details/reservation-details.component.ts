@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ReservationInterface} from "../../../shared/model/interfaces/reservation.interface";
 import {AppointmentInterface} from "../../../shared/model/interfaces/appointment.interface";
 import {ReservationHttpService} from "../../../shared/service/http/reservation-http.service";
@@ -20,10 +20,14 @@ export class ReservationDetailsComponent implements OnInit, OnChanges {
 
   id: number;
   @Input() reservation: ReservationInterface;
+  @Output() action: EventEmitter<any> = new EventEmitter();
   private dateAppointmentsAll: AppointmentInterface[] = [];
 
   handover: AppointmentInterface;
   selectHandover = false;
+
+  selectHandoverCollapsed: boolean = true;
+
 
 
   lastWorkDateTime: {date: NgbDate, time: string};
@@ -106,8 +110,6 @@ export class ReservationDetailsComponent implements OnInit, OnChanges {
     for (const work of this.workAppointments) {
       const date = work.date.split('-');
       const workDate =  new NgbDate(+date[0], +date[1], +date[2]);
-      console.log(workDate);
-      console.log(lastWorkDateTime.date.before(workDate));
       if (lastWorkDateTime.date.before(workDate) ||
         (lastWorkDateTime.date.equals(workDate) && TimeByIndex[lastWorkDateTime.time] < TimeByIndex[work.time])) {
         lastWorkDateTime = {date: workDate, time: work.time};
@@ -160,7 +162,7 @@ export class ReservationDetailsComponent implements OnInit, OnChanges {
     } else {
       this.reservationHttpService.accept(this.reservation.id).subscribe(
         res => {
-          console.log(res);
+          this.action.emit(true);
         }
       );
     }
@@ -169,18 +171,15 @@ export class ReservationDetailsComponent implements OnInit, OnChanges {
   onReject(){
     this.reservationHttpService.reject(this.reservation.id).subscribe(
       res => {
-        console.log(res);
+        this.action.emit(true);
       }
     );
   }
 
   onSuggest() {
-/*
-    const idx = this.reservation.appointments.findIndex(app => app.type === AppointmentType.HANDOVER);
-*/
     this.reservationHttpService.suggest(this.reservation).subscribe(
       res => {
-        console.log(res);
+        this.action.emit(true);
       }
     );
   }

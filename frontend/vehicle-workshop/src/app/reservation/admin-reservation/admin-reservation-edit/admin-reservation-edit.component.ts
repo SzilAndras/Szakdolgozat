@@ -10,6 +10,7 @@ import {NgbCalendar, NgbDate, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import {AppointmentHttpService} from '../../../shared/service/http/appointment-http.service';
 import {TimeByIndex} from '../../../shared/time-table/model/time-by-index.enum';
+import {UserHttpService} from "../../../shared/service/http/user-http.service";
 
 @Component({
   selector: 'app-admin-reservation-edit',
@@ -21,9 +22,12 @@ export class AdminReservationEditComponent implements OnInit {
   dateAppointmentsHandoverAll: AppointmentInterface[] = [];
   dateAppointmentsWorks: AppointmentInterface[] = [];
 
+  workTimeTableCollapsed: boolean = true;
+  handoverTimeTableCollapsed: boolean = true;
 
 
-  user: UserInterface = {id: 1, email: 'asd@asd.asd', fullName: 'Gipsz Jakab', username: 'asd_user', phone: '06309483882'};
+
+  user: UserInterface;
   // TODO TODO TODO
 
   reservation: ReservationInterface;
@@ -45,7 +49,8 @@ export class AdminReservationEditComponent implements OnInit {
   constructor(private servcie: ReservationService,
               private router: Router,
               private calendar: NgbCalendar,
-              private appointmetHttp: AppointmentHttpService) {
+              private appointmetHttp: AppointmentHttpService,
+              private userService: UserHttpService) {
     this.workDate =  this.calendar.getNext(this.calendar.getToday(), 'd', 1);
     this.handoverDate =  this.calendar.getNext(this.calendar.getToday(), 'd', 1);
   }
@@ -54,6 +59,9 @@ export class AdminReservationEditComponent implements OnInit {
     this.reservation = this.servcie.getReservation();
     this.getDateAppointments(true);
     this.getDateAppointments(false);
+    this.userService.getUserById(this.reservation.userId).subscribe(
+      user => this.user = user
+    );
 
     for (const app of this.reservation.appointments) {
       if (app.type === AppointmentType.HANDOVER) {
@@ -199,14 +207,20 @@ export class AdminReservationEditComponent implements OnInit {
 
   onReject() {
     this.servcie.reject();
+    this.router.navigate(['view-reservations/actual']);
+
   }
 
   onAccept() {
     this.servcie.accept();
+    this.router.navigate(['view-reservations/actual']);
+
   }
 
   onSuggest() {
     this.servcie.suggest();
+    this.router.navigate(['view-reservations/actual']);
+
   }
 
   onBack() {
@@ -238,6 +252,10 @@ export class AdminReservationEditComponent implements OnInit {
 
   isRejected(): boolean {
     return (this.reservation.userStatus === Status.REJECTED || this.reservation.adminStatus === Status.REJECTED);
+  }
+
+  isReadonly(): boolean {
+    return this.isAcceptedByAdmin() || this.isRejected();
   }
 
 }

@@ -28,9 +28,13 @@ export class ReservationHttpService {
         search += 'plateNumber:' + filter.plateNumber;
       }
       if (filter.status && filter.status !== ReservationFilterStatus.ALL) {
-        search += 'userStatus:' + filter.status;
+        search += (filter.plateNumber ? '&' : '') + 'userStatus:' + filter.status;
       }
-      // TODO admin status, vin
+      if (filter.type) {
+        search += (filter.plateNumber || (filter.status && filter.status !== ReservationFilterStatus.ALL)  ? '&' : '') + 'vehicleType:' + filter.type;
+
+      }
+      // TODO admin status
     }
     const pageInfo = '&page=' + page + '&size=' + (size ? size : 5);
     return this.http.get<PageableInterface<ReservationInterface>>(this.url + '?search=' + search + pageInfo);

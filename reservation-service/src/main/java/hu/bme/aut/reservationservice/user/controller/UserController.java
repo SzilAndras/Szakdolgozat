@@ -46,15 +46,18 @@ public class UserController {
         return login;
     }
 
-/*    @PostMapping("/save")
-    public UserDto save(UserDto user) {
-        return userService.save(user);
-    }*/
-
+    @PreAuthorize("hasAnyAuthority('USER')")
     @GetMapping("/find")
     public UserDto findUser(@RequestAttribute("user") String user) {
         return userService.findUserByUsernameDto(user);
     }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("/findById")
+    public UserDto findUserById(@RequestParam("id") Long id) {
+        return userService.findUserById(id);
+    }
+
 
     @PostMapping("/save")
     public UserDto saveUser(@RequestBody() UserDto userDto, @RequestAttribute("user") String userName) {
