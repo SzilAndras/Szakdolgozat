@@ -8,7 +8,6 @@ import {TimeTableMode} from './model/time-table-mode.enum';
 import {AppointmentStatus} from '../model/enums/appointmentStatus.enum';
 import {AppointmentType} from '../model/enums/appointmentType.enum';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
-import {max} from "rxjs/operators";
 
 @Component({
   selector: 'app-time-table',
@@ -18,6 +17,7 @@ import {max} from "rxjs/operators";
 export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
   readonly CHOSEN = CellStatus.CHOSEN;
   readonly SELECTED = CellStatus.SELECTED;
+  readonly CLOSED = TimeTableMode.CLOSED;
 
 
   oldWorksLength = 0;
@@ -32,6 +32,7 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
   @Input() dateAppointments: AppointmentInterface[] = [];
   @Input() minDate: { date: NgbDate, time: TimeByIndex };
   @Input() maxDate: { date: NgbDate, time: TimeByIndex };
+  @Input() isReadonly: boolean = false;
 
   @Output() selected = new EventEmitter<AppointmentInterface[]>();
 
@@ -47,7 +48,7 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.hasOwnProperty('dateAppointments') || changes.hasOwnProperty('selectedAppointments')) {
+    if (changes.hasOwnProperty('dateAppointments') || changes.hasOwnProperty('selectedAppointments') || changes.hasOwnProperty('isReadonly')) {
       console.log(this.dateAppointments);
       this.refreshTimeTable();
       console.log(this.dateAppointments);
@@ -128,12 +129,12 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
   }
 
   isSelectable(idx: number, status: CellStatus, type: CellType, isDateOk: boolean) {
-    return isDateOk &&
+    return !this.isReadonly && isDateOk &&
       (status === 'EMPTY' || (status === CellStatus.CHOSEN && type === this.mode.toString()));
   }
 
   isDateOk(idx: number) {
-    if (!this.date || !this.minDate || !this.maxDate) {
+    if (!this.date || !this.minDate || !this.maxDate || this.isReadonly) {
       return false;
     }
 
@@ -154,7 +155,7 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
       (appo.date === this.getDay() && TimeByIndex[appo.time] === TimeByIndex[cell.time]));
 
     if (containedIdx === -1) {
-      if (this.mode !== TimeTableMode.WORKSELECT) {
+      if (this.mode !== TimeTableMode.WORKSELECT && this.mode !== TimeTableMode.CLOSED) {
         this.selectedAppointments = this.selectedAppointments.filter(appo =>
           appo.type !== AppointmentType[this.mode.toString()]);
       }
@@ -183,9 +184,14 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
       return (cell.type === CellType.WORK ? 'Munka' :
         cell.type === CellType.TAKEOVER ? 'Átvétel' :
           cell.type === CellType.HANDOVER ? 'Átadás' :
+            cell.type === CellType.CLOSED ? 'Zárva' :
             'Szabad');
     } else {
-      return (!cell.isDateOk ? 'NF' : cell.isSelectable ? 'Szabad' : 'Foglalt');
+      return this.mode === TimeTableMode.CLOSED ? 'Nyitva' :
+        (!cell.isDateOk ? 'NF' :
+          cell.isSelectable ? 'Szabad' :
+            cell.type === CellType.CLOSED ? 'Zárva' :
+              'Foglalt');
     }
   }
 

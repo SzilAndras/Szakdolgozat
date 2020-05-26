@@ -11,11 +11,18 @@
         <td *ngIf="cell.isSelectable && cell.status === CHOSEN"
             class="text-center chosen"
             (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
-        <td *ngIf="!cell.isSelectable && cell.status === SELECTED"
+        <td *ngIf="!cell.isSelectable && cell.status === SELECTED && mode !== CLOSED"
             class="text-center selected"
-            (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
-        <td *ngIf="!cell.isSelectable && cell.status !== SELECTED"
+            >{{getCellText(j)}}</td>
+        <td *ngIf="!cell.isSelectable && cell.status !== SELECTED && mode !== CLOSED"
             class="text-center reserved"
+            >{{getCellText(j)}}</td>
+
+        <td *ngIf="!cell.isSelectable && mode === CLOSED && cell.isCurrent"
+            class="text-center closed"
+            (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
+        <td *ngIf="!cell.isSelectable && mode === CLOSED && !cell.isCurrent"
+            class="text-center closed-empty"
             (click)="onCellSelected(cell)">{{getCellText(j)}}</td>
       </ng-container>
     </tr>

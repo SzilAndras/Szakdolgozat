@@ -117,17 +117,6 @@
   <br>
 
   <br>
-  <!--
-  <div>
-    <h4>Megjegyzések</h4>
-    <p *ngFor="let comm of reservation.comments"> {{comm.comment}}</p>
-    <ul class="list-group row">
-      <li *ngFor="let comm of new-reservation.comments" class="list-group-itme">
-        {{comm.comment}}
-      </li>
-    </ul>
-  </div>
--->
 
   <div class="btn-group pull-right">
     <button [disabled]="!(!isRejected() && !(isAcceptedByUser() && isAcceptedByAdmin()))" class="btn btn-danger" (click)="onReject()">Elutasítás</button>

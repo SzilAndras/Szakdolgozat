@@ -79,7 +79,6 @@ export class ReservationService {
       vin: '',
       works: [],
       appointments: [],
-      comments: [],
       adminStatus: Status.PENDING,
       userStatus: Status.PENDING
     };

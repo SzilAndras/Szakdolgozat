@@ -18,8 +18,6 @@ export interface ReservationInterface {
 
   appointments: AppointmentInterface[];
 
-  comments: string[];
-
   adminStatus: Status;
 
   userStatus: Status;

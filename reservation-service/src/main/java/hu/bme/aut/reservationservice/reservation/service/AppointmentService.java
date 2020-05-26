@@ -1,9 +1,11 @@
 package hu.bme.aut.reservationservice.reservation.service;
 
 import hu.bme.aut.reservationservice.reservation.helper.AppointmentMapper;
+import hu.bme.aut.reservationservice.reservation.model.Appointment;
 import hu.bme.aut.reservationservice.reservation.model.AppointmentDto;
 import hu.bme.aut.reservationservice.reservation.model.enums.AppointmentStatus;
 import hu.bme.aut.reservationservice.reservation.model.enums.AppointmentType;
+import hu.bme.aut.reservationservice.reservation.model.enums.Status;
 import hu.bme.aut.reservationservice.reservation.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +36,25 @@ public class AppointmentService {
         }
     }
 
-
-    public List<AppointmentDto> getAllByDateAndStatus(Date date, AppointmentStatus status) {
-        return appointmentRepository.findAllByDateAndStatus(date, status).stream().map(AppointmentMapper::mapToDto).collect(Collectors.toList());
+    public List<AppointmentDto> getAllClosedByDate(String date) {
+        try {
+            return appointmentRepository.findAllByDateAndType(formatter.parse(date), AppointmentType.CLOSED).stream().map(AppointmentMapper::mapToDto).collect(Collectors.toList());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // TODO error invalid date
+        }
     }
 
-    public List<AppointmentDto> getAllByDateAndType(Date date, AppointmentType type) {
-        return appointmentRepository.findAllByDateAndType(date, type).stream().map(AppointmentMapper::mapToDto).collect(Collectors.toList());
+    public void saveClosed(List<AppointmentDto> appointmentDtoList) {
+        appointmentDtoList.forEach(
+                app -> {
+                    Appointment appointment = AppointmentMapper.mapFromDto(app);
+                    appointment.setStatus(AppointmentStatus.ACCEPTED);
+                    appointment.setType(AppointmentType.CLOSED);
+                    appointment.setReservation(null);
+                    appointmentRepository.save(appointment);
+                }
+        );
     }
+
 }

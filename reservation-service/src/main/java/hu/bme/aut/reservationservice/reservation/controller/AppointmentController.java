@@ -5,6 +5,8 @@ import hu.bme.aut.reservationservice.reservation.model.enums.AppointmentStatus;
 import hu.bme.aut.reservationservice.reservation.model.enums.AppointmentType;
 import hu.bme.aut.reservationservice.reservation.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -24,16 +26,16 @@ public class AppointmentController {
         return appointmentService.getAllByDate(date);
     }
 
-
-    @GetMapping(path = "/byDateAndStatus/{date}/{status}")
-    public List<AppointmentDto> getAllByDateAndStatus(@PathVariable("date") Date date,
-                                                      @PathVariable("status") AppointmentStatus status) {
-        return appointmentService.getAllByDateAndStatus(date, status);
+    @GetMapping("/closed")
+    public List<AppointmentDto> getAllClosedByDate(@RequestParam("date") String date) {
+        return appointmentService.getAllClosedByDate(date);
     }
 
-    @GetMapping(path = "/byDateAndType/{date}/{type}")
-    public List<AppointmentDto> getAllByDateAndType(@PathVariable("date") Date date,
-                                                    @PathVariable("type") AppointmentType type) {
-        return appointmentService.getAllByDateAndType(date, type);
+    @PostMapping("/closed")
+    public ResponseEntity saveClosedAppointments(@RequestBody List<AppointmentDto> appointmentDtoList) {
+        appointmentService.saveClosed(appointmentDtoList);
+        return new ResponseEntity(HttpStatus.OK);
+        // TODO
     }
+
 }

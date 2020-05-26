@@ -3,7 +3,15 @@
     <app-informations></app-informations>
   </div>
   <div class="col-md-8">
+    <button type="button" class="btn btn-primary btn-block" (click)="openingHoursCollapse = !openingHoursCollapse"
+            [attr.aria-expanded]="!openingHoursCollapse" aria-controls="collapseExample">
+      Nyitvatartás
+    </button>
+    <div class="mt-2 mb-2 p-2 border" id="collapseExample" [ngbCollapse]="openingHoursCollapse">
+      <app-opening-hours></app-opening-hours>
+    </div>
     <app-news></app-news>
+
   </div>
   <div class="col-md-2">
     <app-rating></app-rating>
