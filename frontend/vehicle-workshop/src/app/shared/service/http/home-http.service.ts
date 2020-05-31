@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {InfoInterface} from "../../model/interfaces/info.interface";
 import {Observable} from "rxjs";
 import {RatingInterface} from "../../model/interfaces/rating.interface";
@@ -35,7 +35,7 @@ export class HomeHttpService {
     return this.http.post<RatingInterface[]>(this.url + "rating", rating);
   }
 
-  public getNews(): Observable<NewsInterface[]> { // TODO
+  public getNews(): Observable<NewsInterface[]> {
     return this.http.get<NewsInterface[]>(this.url + "news");
   }
 

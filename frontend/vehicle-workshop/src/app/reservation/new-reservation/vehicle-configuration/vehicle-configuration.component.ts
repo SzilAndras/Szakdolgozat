@@ -1,16 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ReservationInterface} from "../../../shared/model/interfaces/reservation.interface";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {ReservationService} from "../../../shared/service/reservation.service";
 import {Router} from "@angular/router";
-
-interface VehicleConf {
-  type: string,
-  plateNumber: string,
-  vin: string,
-  works: {id: number, work:string}[]
-}
-
 
 @Component({
   selector: 'app-vehicle-configuration',
@@ -20,7 +12,6 @@ interface VehicleConf {
 
 export class VehicleConfigurationComponent implements OnInit {
   reservation: ReservationInterface;
-  @Output() vehicleConf: EventEmitter<VehicleConf>;
   reservationForm: FormGroup;
   newWork: FormGroup = this.createWork();
 
@@ -33,7 +24,10 @@ export class VehicleConfigurationComponent implements OnInit {
       type: this.reservation?.vehicleType || '',
       plateNumber: this.reservation?.plateNumber || '',
       vin: this.reservation?.vin || '',
-      works: this.formBuilder.array( this.reservation?.works?.map(work => this.createWork({id: work.id, work: work.work})) || []),
+      works: this.formBuilder.array(
+        this.reservation?.works?.map(
+          work => this.createWork({id: work.id, work: work.work})) || []
+      ),
     });
 
     this.reservationForm.valueChanges.subscribe(

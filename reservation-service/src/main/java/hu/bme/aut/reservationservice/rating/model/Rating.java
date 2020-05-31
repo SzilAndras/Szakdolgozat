@@ -1,10 +1,8 @@
 package hu.bme.aut.reservationservice.rating.model;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name="ratings")
@@ -27,7 +25,4 @@ public class Rating {
 
     @Column
     private String comment;
-
-    @CreatedDate
-    private Date createdDate;
 }

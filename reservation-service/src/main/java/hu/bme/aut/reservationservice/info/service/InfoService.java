@@ -33,6 +33,7 @@ public class InfoService {
                 .value(info.getValue())
                 .build()
         );
+
         return InfoDto.builder()
                 .id(savedInfo.getId())
                 .label(savedInfo.getLabel())

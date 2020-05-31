@@ -5,14 +5,12 @@ import hu.bme.aut.reservationservice.reservation.model.Appointment;
 import hu.bme.aut.reservationservice.reservation.model.AppointmentDto;
 import hu.bme.aut.reservationservice.reservation.model.enums.AppointmentStatus;
 import hu.bme.aut.reservationservice.reservation.model.enums.AppointmentType;
-import hu.bme.aut.reservationservice.reservation.model.enums.Status;
 import hu.bme.aut.reservationservice.reservation.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,16 +21,13 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public List<AppointmentDto> getAll() {
-        return appointmentRepository.findAll().stream().map(AppointmentMapper::mapToDto).collect(Collectors.toList());
-    }
 
     public List<AppointmentDto> getAllByDate(String date) {
         try {
             return appointmentRepository.findAllByDateAndStatusNot(formatter.parse(date), AppointmentStatus.REJECTED).stream().map(AppointmentMapper::mapToDto).collect(Collectors.toList());
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // TODO error invalid date
+            return null;
         }
     }
 
@@ -41,7 +36,7 @@ public class AppointmentService {
             return appointmentRepository.findAllByDateAndType(formatter.parse(date), AppointmentType.CLOSED).stream().map(AppointmentMapper::mapToDto).collect(Collectors.toList());
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // TODO error invalid date
+            return null;
         }
     }
 

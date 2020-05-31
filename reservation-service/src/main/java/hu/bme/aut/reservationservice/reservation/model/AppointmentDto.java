@@ -16,7 +16,7 @@ public class AppointmentDto {
 
     private Date date;
 
-    private String time; // TODO
+    private String time;
 
     private AppointmentStatus status;
 

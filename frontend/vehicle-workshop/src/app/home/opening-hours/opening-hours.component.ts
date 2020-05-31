@@ -15,7 +15,6 @@ export class OpeningHoursComponent implements OnInit {
 
   faCalendar = faCalendarAlt;
   appointments: AppointmentInterface[] = [];
-  dateAppointments: AppointmentInterface[] = [];
   model: NgbDate;
 
   isAdmin: boolean = false;
@@ -28,7 +27,7 @@ export class OpeningHoursComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getRole().subscribe(
+    this.userService.role.subscribe(
       role =>  this.isAdmin = role === UserRoleEnum.ADMIN
     );
     this.userService.loggedIn.subscribe(
@@ -39,9 +38,7 @@ export class OpeningHoursComponent implements OnInit {
       }
     );
     this.model = this.calendar.getNext(this.calendar.getToday(), 'd', 15);
-/*
-    this.getDateAppointments();
-*/
+
     this.getDateClosedAppointments();
 
   }
@@ -62,16 +59,8 @@ export class OpeningHoursComponent implements OnInit {
 
   onDateChanged(date) {
     this.model = date;
-/*
-    this.getDateAppointments();
-*/
-    this.getDateClosedAppointments();
-  }
 
-  getDateAppointments() {
-    this.appointmentService.getAppointmentsByDate(this.date).subscribe(
-      appo => this.dateAppointments = appo
-    );
+    this.getDateClosedAppointments();
   }
 
   getDateClosedAppointments() {
@@ -86,9 +75,7 @@ export class OpeningHoursComponent implements OnInit {
 
   onSave() {
     this.appointmentService.saveClosedAppointments(this.appointments).subscribe(
-      (res) => {
-        console.log(res);
-      }
+      () => {}
     )
   }
 

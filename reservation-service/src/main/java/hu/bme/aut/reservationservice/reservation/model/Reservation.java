@@ -2,11 +2,8 @@ package hu.bme.aut.reservationservice.reservation.model;
 
 import hu.bme.aut.reservationservice.reservation.model.enums.Status;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -14,7 +11,7 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter //(value = AccessLevel.PACKAGE)
+@Setter
 @Getter
 public class Reservation {
 
@@ -44,11 +41,4 @@ public class Reservation {
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "reservation_id")
     private Set<Work> works;
-
-    @CreatedDate
-    private Date createdDate;
-
-    @LastModifiedDate
-    private Date lastModifiedDate;
-
 }

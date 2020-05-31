@@ -4,5 +4,4 @@ export interface RatingInterface {
   score: number;
   comment: string;
   authorName?: string;
-  createdDate?: Date;
 }

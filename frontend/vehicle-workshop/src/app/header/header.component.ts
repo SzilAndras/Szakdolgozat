@@ -19,13 +19,11 @@ export class HeaderComponent implements OnInit {
     this.userService.loggedIn.subscribe(
       is => {
         this.isLogin = is;
-        if(is) {
-          this.userService.getRole().subscribe(
-            role => {
-              this.isAdmin = role == UserRoleEnum.ADMIN;
-            }
-          )
-        }
+      }
+    );
+    this.userService.role.subscribe(
+      role => {
+        this.isAdmin = UserRoleEnum.ADMIN === role;
       }
     );
   }
@@ -33,7 +31,5 @@ export class HeaderComponent implements OnInit {
   onLogout() {
     this.userService.logout();
   }
-
-
 
 }

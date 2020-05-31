@@ -146,7 +146,6 @@ export class ReservationDetailsComponent implements OnInit, OnChanges {
     this.reservation.appointments = appointment;
     const idx = this.reservation.appointments.findIndex(app => app.type === AppointmentType.HANDOVER);
     this.handover = appointment[idx];
-    console.log(appointment);
     if (this.baseHandover.date === appointment[idx].date && this.baseHandover.time === appointment[idx].time ) {
       this.selectHandover = false;
     } else {

@@ -72,15 +72,11 @@ export class InformationsComponent implements OnInit {
   }
 
   selectable() {
-    console.log('selectable');
-    this.userService.getRole().subscribe(
+    this.userService.role.subscribe(
       role => {
-        console.log(role);
-        console.log( role === 'ADMIN');
         this.isSelectable = role === 'ADMIN';
-        console.log(this.isSelectable);
       }
-    )
+    );
   }
 
   openNew() {

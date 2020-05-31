@@ -1,6 +1,6 @@
 <div *ngIf="isSelectable" >
   <button class="btn btn-primary btn-block" (click)="openNew()">Új info</button>
-  <app-info-item  class="border" style="padding: 1em;" *ngIf="!!new"
+  <app-info-item  class="border p-2" *ngIf="!!new"
                  [info]="newInfo"
                  [types]="types"
                  [editable]="true"
@@ -12,7 +12,7 @@
 
 
 <div class="mt-1">
-  <div  class="mt-1 border" style="padding: 1em;">
+  <div  class="mt-1 border p-2">
     <h6>Cím</h6>
     <div *ngFor="let info of getByType(ADDRESS)">
       <app-info-item [info]="info"
@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="mt-1 border" style="padding: 1em;">
+  <div class="mt-1 border p-2">
     <h6>Elérhetőségek</h6>
     <div *ngFor="let info of getByType(EMAIL)">
       <app-info-item [info]="info"
@@ -55,7 +55,7 @@
 
   </div>
 
-  <div class="mt-1 border" style="padding: 1em;">
+  <div class="mt-1 border p-2">
     <h6>Egyéb</h6>
     <div *ngFor="let info of getByType(OTHER)">
       <app-info-item [info]="info"

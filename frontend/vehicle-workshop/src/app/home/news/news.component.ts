@@ -3,7 +3,6 @@ import {NewsInterface} from "../../shared/model/interfaces/news.interface";
 import {HomeHttpService} from "../../shared/service/http/home-http.service";
 import {UserService} from "../../shared/service/user.service";
 import {UserRoleEnum} from "../../shared/model/enums/user-role.enum";
-import {InfoInterface} from "../../shared/model/interfaces/info.interface";
 
 @Component({
   selector: 'app-news',
@@ -17,12 +16,6 @@ export class NewsComponent implements OnInit {
 
   isEditable: boolean = false;
   isEdit: boolean = false;
-
-  page: {last: boolean, first: boolean, totalPages: number, number: number} =
-    {last: true, first: true, totalPages: 1, number: 0};
-
-
-
 
   constructor(private homeService: HomeHttpService, private userService: UserService) { }
 
@@ -42,19 +35,12 @@ export class NewsComponent implements OnInit {
   }
 
   refreshEditable() {
-    this.userService.getRole().subscribe(
+    this.userService.role.subscribe(
       role => {
         this.isEditable = role === UserRoleEnum.ADMIN;
       }
-    )
+    );
   }
-
-  onPaging(page) {
-    console.log(page);
-    // TODO
-    this.refreshNewsList();
-  }
-
 
   onSave(news: NewsInterface) {
     this.homeService.saveNews(news).subscribe(
@@ -95,9 +81,7 @@ export class NewsComponent implements OnInit {
       title: '',
       text: '',
       tags: '',
-      authorName: null,
-      createdDate: null,
-      lastModifiedDate: null
+      authorName: null
     };
   }
 

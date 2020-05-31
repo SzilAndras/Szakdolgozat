@@ -1,7 +1,6 @@
 package hu.bme.aut.reservationservice.reservation.model;
 
 import hu.bme.aut.reservationservice.reservation.model.enums.Status;
-import hu.bme.aut.reservationservice.reservation.model.enums.VehicleType;
 import lombok.Builder;
 import lombok.Data;
 

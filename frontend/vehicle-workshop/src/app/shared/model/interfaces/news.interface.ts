@@ -5,6 +5,4 @@ export interface NewsInterface {
   title: string;
   text: string;
   tags?: string;
-  createdDate?: Date;
-  lastModifiedDate?: Date;
 }

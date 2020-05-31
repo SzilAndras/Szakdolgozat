@@ -38,10 +38,6 @@ public class UserService {
         );
     }
 
-    public UserDto save(UserDto user) {
-        return user;
-    }
-
     public UserDto save(UserDto newData, String username) {
         User user = this.userRepository.findByUsername(username);
         if (user.getId().equals(newData.getId())) {
@@ -69,14 +65,10 @@ public class UserService {
         return null;
     }
 
-    public User findUserByUsername(String name) {
-        return userRepository.findByUsername(name);
-    }
 
     public UserDto findUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.map(UserMapper::mapToDto).orElse(null);
-        //TODO
     }
 
     public UserDto findUserByUsernameDto(String name) {

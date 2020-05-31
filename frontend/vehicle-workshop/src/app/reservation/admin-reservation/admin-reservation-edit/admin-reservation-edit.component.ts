@@ -28,7 +28,6 @@ export class AdminReservationEditComponent implements OnInit {
 
 
   user: UserInterface;
-  // TODO TODO TODO
 
   reservation: ReservationInterface;
 
@@ -36,8 +35,6 @@ export class AdminReservationEditComponent implements OnInit {
 
   workDate: NgbDate;
   handoverDate: NgbDate;
-
-  //lastWorkDateTime: {date: NgbDate, time: string};
 
   baseHandover: AppointmentInterface;
   selectHandover = false;
@@ -199,7 +196,6 @@ export class AdminReservationEditComponent implements OnInit {
           if (res) {
             this.router.navigate(['view-reservations/actual']);
           }
-          console.log(res);
         }
       );
     }

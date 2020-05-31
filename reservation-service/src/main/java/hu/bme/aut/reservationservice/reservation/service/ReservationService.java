@@ -43,7 +43,7 @@ public class ReservationService {
         User user = findUser(name);
 
         if (user == null) {
-            return null; // todo
+            return null;
         }
 
         reservation.getAppointments().forEach(
@@ -53,7 +53,9 @@ public class ReservationService {
             reservation.setUserId(user.getId());
             reservation.setAdminStatus(Status.PENDING);
             reservation.setUserStatus(Status.PENDING);
-            return ReservationMapper.mapToReservationDto(reservationRepository.save(ReservationMapper.mapFromReservationDto(reservation)));
+            return ReservationMapper.mapToReservationDto(
+                    reservationRepository.save(
+                            ReservationMapper.mapFromReservationDto(reservation)));
         } else {
             Optional<Reservation> resOpt = this.reservationRepository.findById(reservation.getId());
             if (resOpt.isPresent() && role == Role.ADMIN) {
@@ -62,7 +64,7 @@ public class ReservationService {
                 return ReservationMapper.mapToReservationDto(reservationRepository.save(ReservationMapper.mapFromReservationDto(reservation)));
             }
         }
-        return null; // TODO error
+        return null;
     }
 
     public Slice<ReservationDto> getByFilter(String search, int page, int size, String name, Role role) {
@@ -98,7 +100,7 @@ public class ReservationService {
                     if (isOwner) {
                         reservation.setAdminStatus(Status.PENDING);
                         reservation.setUserStatus(Status.ACCEPTED);
-                    } else {
+                    } else if (isAdmin) {
                         reservation.setAdminStatus(Status.ACCEPTED);
                         reservation.setUserStatus(Status.PENDING);
                     }
@@ -109,7 +111,6 @@ public class ReservationService {
                         currentHandoverApp.setDate(handoverApp.getDate());
                         currentHandoverApp.setTime(handoverApp.getTime());
                     } else {
-                        // TODO
                         handoverApp.setStatus(AppointmentStatus.SUGGESTED);
                         reservation.getAppointments().add(AppointmentMapper.mapFromDto(handoverApp));
                     }
@@ -117,7 +118,7 @@ public class ReservationService {
                 }
             }
         }
-        return null; // error some data not exist
+        return null;
     }
 
     public ReservationDto accept(String userName, Role role, Long resId) {
@@ -145,7 +146,7 @@ public class ReservationService {
                 return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
             }
         }
-        return null; // TODO return error
+        return null;
     }
 
     private ReservationDto adminAccept(Long id) {
@@ -163,7 +164,7 @@ public class ReservationService {
                 return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
             }
         }
-        return null; // TODO return error
+        return null;
     }
 
     private ReservationDto userReject(String userName, Long id) {
@@ -187,7 +188,7 @@ public class ReservationService {
                 return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
             }
         }
-        return null; // TODO return error
+        return null;
     }
 
     private ReservationDto adminReject(Long id) {
@@ -208,7 +209,7 @@ public class ReservationService {
                 return ReservationMapper.mapToReservationDto(reservationRepository.save(reservation));
             }
         }
-        return null; // TODO return error
+        return null;
     }
 
 }

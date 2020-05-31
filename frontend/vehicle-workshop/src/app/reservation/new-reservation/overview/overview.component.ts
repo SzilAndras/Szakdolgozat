@@ -24,7 +24,7 @@ export class OverviewComponent implements OnInit {
 
   onSend(): void {
     this.saveReservationService.sendReservation().subscribe(
-      res => {
+      () => {
         this.router.navigate(['my-reservations']);
       }
     );

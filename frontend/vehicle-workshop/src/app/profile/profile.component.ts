@@ -28,13 +28,11 @@ export class ProfileComponent implements OnInit {
   }
 
   refreshUser() {
-    console.log(this.profile);
     this.form = this.formBuilder.group({
       email: this.profile.email || '',
       phone: this.profile.phone || '',
       fullName: this.profile.fullName || '',
     });
-    console.log(this.form);
   }
 
   initPassForm() {
@@ -52,8 +50,6 @@ export class ProfileComponent implements OnInit {
     this.profile.fullName = this.form.get('fullName').value;
     this.profile.email = this.form.get('email').value;
     this.profile.phone = this.form.get('phone').value;
-
-    console.log(this.profile);
 
     this.service.saveUser(this.profile).subscribe(
       user => {

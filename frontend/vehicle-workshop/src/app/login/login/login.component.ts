@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "../../shared/service/user.service";
 import {LoginInterface} from "../../shared/model/interfaces/login.interface";
-import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -30,7 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(login){
-    console.log(login);
     this.login.username = login.username;
     this.login.password = login.password;
 

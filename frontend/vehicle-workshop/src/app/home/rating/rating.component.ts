@@ -29,7 +29,7 @@ export class RatingComponent implements OnInit {
   }
 
   refreshRole() {
-    this.userService.getRole().subscribe(
+    this.userService.role.subscribe(
       role => {
         this.isUser = role === UserRoleEnum.USER;
       }
@@ -53,12 +53,10 @@ export class RatingComponent implements OnInit {
         this.ratings = ratings;
       }
     );
-    // todo
   }
 
   openCreateRating() {
     this.newRatingModal.open();
-    // TODO
   }
 
   saveRating(rating) {

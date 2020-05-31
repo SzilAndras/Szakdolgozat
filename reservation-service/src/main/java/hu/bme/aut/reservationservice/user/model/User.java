@@ -2,7 +2,6 @@ package hu.bme.aut.reservationservice.user.model;
 
 import hu.bme.aut.reservationservice.user.model.enums.Role;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 
@@ -30,6 +29,7 @@ public class User {
 
     private String phone;
 
-    private Role role; // TODO
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }

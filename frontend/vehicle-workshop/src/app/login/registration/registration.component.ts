@@ -14,9 +14,6 @@ export class RegistrationComponent implements OnInit {
   reg: RegistrationInterface;
   regForm: FormGroup;
 
-  password1;
-  password2;
-
   constructor(private userService: UserService,
               private router: Router,
               private formBuilder: FormBuilder
@@ -41,12 +38,7 @@ export class RegistrationComponent implements OnInit {
 
   onSignup(reg) {
     this.reg = reg;
-    console.log(this.reg);
-    this.userService.registration(this.reg).subscribe(
-      res => {
-        console.log(res);
-      }
-    )
+    this.userService.registration(this.reg);
   }
 
 }

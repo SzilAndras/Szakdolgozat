@@ -1,6 +1,5 @@
 package hu.bme.aut.reservationservice.user.controller;
 
-import hu.bme.aut.reservationservice.user.model.LoginDto;
 import hu.bme.aut.reservationservice.user.model.NewPassDto;
 import hu.bme.aut.reservationservice.user.model.RegistrationDto;
 import hu.bme.aut.reservationservice.user.model.UserDto;
@@ -41,12 +40,6 @@ public class UserController {
         return userService.registration(registration);
     }
 
-    @PostMapping("/login")
-    public LoginDto login(@RequestBody() LoginDto login) {
-        return login;
-    }
-
-    @PreAuthorize("hasAnyAuthority('USER')")
     @GetMapping("/find")
     public UserDto findUser(@RequestAttribute("user") String user) {
         return userService.findUserByUsernameDto(user);

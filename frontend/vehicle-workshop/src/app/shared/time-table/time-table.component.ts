@@ -49,9 +49,7 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hasOwnProperty('dateAppointments') || changes.hasOwnProperty('selectedAppointments') || changes.hasOwnProperty('isReadonly')) {
-      console.log(this.dateAppointments);
       this.refreshTimeTable();
-      console.log(this.dateAppointments);
 
     }
   }
@@ -68,7 +66,6 @@ export class TimeTableComponent implements OnInit, DoCheck, OnChanges {
       this.oldDate = this.date;
       this.oldMaxDate = this.maxDate?.date;
       this.oldMinDate = this.minDate?.date;
-      console.log(this.dateAppointments);
 
       this.refreshTimeTable();
     }

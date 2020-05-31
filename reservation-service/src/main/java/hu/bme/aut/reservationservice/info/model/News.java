@@ -2,11 +2,7 @@ package hu.bme.aut.reservationservice.info.model;
 
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "news")
@@ -32,12 +28,5 @@ public class News {
 
     @Column(columnDefinition = "TEXT")
     private String tags;
-
-    @CreatedDate
-    private Date createdDate;
-
-    @LastModifiedDate
-    private Date lastModifiedDate;
-
 
 }

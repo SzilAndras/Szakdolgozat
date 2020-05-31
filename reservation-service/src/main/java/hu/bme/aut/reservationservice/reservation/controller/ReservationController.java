@@ -1,6 +1,5 @@
 package hu.bme.aut.reservationservice.reservation.controller;
 
-import hu.bme.aut.reservationservice.reservation.model.enums.Status;
 import hu.bme.aut.reservationservice.reservation.model.ReservationDto;
 import hu.bme.aut.reservationservice.reservation.service.ReservationService;
 import hu.bme.aut.reservationservice.user.model.enums.Role;

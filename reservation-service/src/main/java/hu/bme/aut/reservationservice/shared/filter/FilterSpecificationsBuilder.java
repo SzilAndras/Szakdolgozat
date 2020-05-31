@@ -31,7 +31,7 @@ public class FilterSpecificationsBuilder<T> {
         Specification<T> result = specs.get(0);
 
         for (int i = 1; i < params.size(); i++) {
-            result = Specification.where(result).and(specs.get(i)); // TODO null pointer
+            result = Specification.where(result).and(specs.get(i));
         }
         return result;
     }

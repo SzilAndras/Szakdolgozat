@@ -32,7 +32,6 @@ export class AppointmentSelectComponent implements OnInit {
   appointmentsSelected(appointments: AppointmentInterface[]) {
     this.appointments = appointments;
     this.saveReservationService.refreshAppointments(this.appointments);
-    console.log(this.model);
   }
 
   get maxDateTime(): {date: NgbDate, time: string} {

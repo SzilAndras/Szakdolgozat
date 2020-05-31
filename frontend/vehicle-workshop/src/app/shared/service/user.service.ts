@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserInterface} from "../model/interfaces/user.interface";
 import {UserHttpService} from "./http/user-http.service";
 import {LoginInterface} from "../model/interfaces/login.interface";
 import {RegistrationInterface} from "../model/interfaces/registration.interface";
-import {BehaviorSubject, Observable} from "rxjs";
-import { of } from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {UserRoleEnum} from "../model/enums/user-role.enum";
 import {Router} from "@angular/router";
 
@@ -15,20 +14,19 @@ export class UserService {
 
   user: UserInterface;
 
-  role = of(UserRoleEnum.GUEST);
 
-  loggedIn = new BehaviorSubject(false)
+  private loggedInSource = new BehaviorSubject(false);
+
+  loggedIn = this.loggedInSource.asObservable();
+
+  private roleSource = new BehaviorSubject<UserRoleEnum>(UserRoleEnum.GUEST);
+
+  role = this.roleSource.asObservable();
 
 
 
   constructor(private http: UserHttpService, private router: Router) {
-    this.getRole().subscribe(
-      role => {
-        if (role !== UserRoleEnum.GUEST) {
-          this.loggedIn.next(true);
-        }
-      }
-    );
+    this.getRole();
   }
 
   login(login: LoginInterface){
@@ -36,35 +34,41 @@ export class UserService {
       if (response) {
         this.saveToken(response.headers.get('token'));
         this.router.navigate(['home']);
-        this.loggedIn.next(true);
+        this.loggedInSource.next(true);
+        this.getRole();
       }
     });
   }
 
   registration(reg: RegistrationInterface) {
     localStorage.removeItem("token");
-    this.router.navigate(['login']);
-
-    return this.http.registration(reg);
+    this.http.registration(reg).subscribe(
+      () => {
+        this.router.navigate(['login']);
+      }
+    );
   }
 
-  getRole(): Observable<UserRoleEnum> {
-    if (this.getToken() !== null) {
-      return this.http.getRole();
-    } else {
-      return this.role;
-    }
+  getRole() {
+    this.http.getRole().subscribe(
+      role => {
+        if (role) {
+          this.loggedInSource.next(true);
+          this.roleSource.next(role);
+        }
+      }
+    );
   }
 
   logout() {
     localStorage.removeItem("token");
     this.router.navigate(['home']);
-    this.loggedIn.next(false);
+    this.loggedInSource.next(false);
+    this.roleSource.next(UserRoleEnum.GUEST);
 
   }
 
   saveToken(token: string) {
-    console.log(token);
     localStorage.setItem("token", token);
   }
 
